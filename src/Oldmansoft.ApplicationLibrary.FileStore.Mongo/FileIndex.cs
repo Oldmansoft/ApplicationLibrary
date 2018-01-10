@@ -53,5 +53,10 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
             repository.Remove(domain);
             Factory.GetUnitOfWork().Commit();
         }
+
+        public bool HasLocation(string location)
+        {
+            return Factory.CreateFileIndexRepository().Query().Where(o => o.Location == location).FirstOrDefault() != null;
+        }
     }
 }

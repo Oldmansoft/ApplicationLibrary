@@ -24,7 +24,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
 
         public int Count { get; private set; }
 
-        public string Location { get; private set; }
+        public string Location { get; set; }
 
         public DateTime CreatedTime { get; private set; }
         

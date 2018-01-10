@@ -22,5 +22,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
         void DecRef(string id);
 
         void Remove(string id);
+
+        bool HasLocation(string location);
     }
 }
