@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4077524F-C9CC-4604-9286-8B3C10F3F164}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Oldmansoft.ApplicationLibrary.WechatOpen</RootNamespace>
+    <AssemblyName>Oldmansoft.ApplicationLibrary.WechatOpen</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CalledServerBusyException.cs" />
+    <Compile Include="CallException.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Data\AccessTokenResponse.cs" />
+    <Compile Include="Data\AccessUserResponse.cs" />
+    <Compile Include="Data\ErrorResponse.cs" />
+    <Compile Include="Data\SignatureRequest.cs" />
+    <Compile Include="Data\TicketResponse.cs" />
+    <Compile Include="Data\AuthUserResponse.cs" />
+    <Compile Include="Data\UserTokenResponse.cs" />
+    <Compile Include="Extends.cs" />
+    <Compile Include="IConfig.cs" />
+    <Compile Include="IPlatform.cs" />
+    <Compile Include="IAuth.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider\Data\Position.cs" />
+    <Compile Include="Provider\IAccessTokenStore.cs" />
+    <Compile Include="Provider\InProcess\UserTokenStore.cs" />
+    <Compile Include="Provider\InProcess\TicketStore.cs" />
+    <Compile Include="Provider\InProcess\AccessTokenStore.cs" />
+    <Compile Include="Provider\InProcess\PositionStore.cs" />
+    <Compile Include="Provider\IPositionStore.cs" />
+    <Compile Include="Provider\IStore.cs" />
+    <Compile Include="Provider\ITicketStore.cs" />
+    <Compile Include="Provider\IUserTokenStore.cs" />
+    <Compile Include="Platform.cs" />
+    <Compile Include="Service\Data\Article.cs" />
+    <Compile Include="Service\Data\DealParameter.cs" />
+    <Compile Include="Service\Data\InputHead.cs" />
+    <Compile Include="Service\Data\ReplyMessage.cs" />
+    <Compile Include="Service\Data\ReplyNews.cs" />
+    <Compile Include="Service\Data\ReplyNull.cs" />
+    <Compile Include="Service\Data\ReplyText.cs" />
+    <Compile Include="Service\Dealer.cs" />
+    <Compile Include="Service\IMessageResponse.cs" />
+    <Compile Include="Service\JsSdk.cs" />
+    <Compile Include="Service\MessageDealers\MessageDealer.cs" />
+    <Compile Include="Service\MessageDealers\TextMessageDealer.cs" />
+    <Compile Include="Service\MessageParameterSupporter.cs" />
+    <Compile Include="Service\MessageServer.cs" />
+    <Compile Include="Service\MessageType.cs" />
+    <Compile Include="Service\ParameterSupporter\Event.cs" />
+    <Compile Include="Service\ParameterSupporter\Image.cs" />
+    <Compile Include="Service\ParameterSupporter\ImageParameter.cs" />
+    <Compile Include="Service\ParameterSupporter\Link.cs" />
+    <Compile Include="Service\ParameterSupporter\LinkParameter.cs" />
+    <Compile Include="Service\ParameterSupporter\Location.cs" />
+    <Compile Include="Service\ParameterSupporter\LocationParameter.cs" />
+    <Compile Include="Service\ParameterSupporter\MassSendJobFinish.cs" />
+    <Compile Include="Service\ParameterSupporter\MediaParameter.cs" />
+    <Compile Include="Service\ParameterSupporter\ScanParameter.cs" />
+    <Compile Include="Service\ParameterSupporter\ShortVideo.cs" />
+    <Compile Include="Service\ParameterSupporter\TemplateSendJobFinish.cs" />
+    <Compile Include="Service\ParameterSupporter\Text.cs" />
+    <Compile Include="Service\ParameterSupporter\Video.cs" />
+    <Compile Include="Service\ParameterSupporter\VideoParameter.cs" />
+    <Compile Include="Service\ParameterSupporter\Voice.cs" />
+    <Compile Include="Service\ParameterSupporter\VoiceParameter.cs" />
+    <Compile Include="Auth.cs" />
+    <Compile Include="AuthUser.cs" />
+    <Compile Include="Visitor.cs" />
+    <Compile Include="WechatException.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
