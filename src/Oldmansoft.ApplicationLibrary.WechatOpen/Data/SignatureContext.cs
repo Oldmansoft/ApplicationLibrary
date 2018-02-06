@@ -12,7 +12,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Data
     /// 1.签名用的noncestr和timestamp必须与wx.config中的nonceStr和timestamp相同。
     /// 2.签名用的url必须是调用JS接口页面的完整URL。
     /// </summary>
-    public class SignatureRequest
+    class SignatureContext
     {
         /// <summary>
         /// 票据

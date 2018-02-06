@@ -17,6 +17,14 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             return BitConverter.ToString(hashedBytes).Replace("-", "");
         }
 
+        public static string GetMd5Hash(this string source)
+        {
+            if (string.IsNullOrEmpty(source)) throw new ArgumentNullException();
+            var cleanBytes = Encoding.Default.GetBytes(source);
+            var hashedBytes = System.Security.Cryptography.MD5.Create().ComputeHash(cleanBytes);
+            return BitConverter.ToString(hashedBytes).Replace("-", "");
+        }
+
         /// <summary>
         /// 创建元素
         /// </summary>
@@ -24,7 +32,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static XmlElement Create(this XmlDocument source, string name, object value)
+        public static XmlElement CreateElement(this XmlDocument source, string name, object value)
         {
             var element = source.CreateElement(name);
             if (value == null) return element;

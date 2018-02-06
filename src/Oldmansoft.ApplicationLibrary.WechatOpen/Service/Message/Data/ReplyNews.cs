@@ -36,7 +36,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data
         /// <param name="elements"></param>
         protected override void SetBody(List<System.Xml.XmlElement> elements)
         {
-            elements.Add(Document.Create("ArticleCount", Articles.Count()));
+            elements.Add(Document.CreateElement("ArticleCount", Articles.Count()));
             var items = Document.CreateElement("Articles");
             foreach (var article in Articles)
             {
@@ -46,7 +46,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data
                     var value = property.GetValue(article);
                     if (value == null) continue;
 
-                    var element = Document.Create(property.Name, value);
+                    var element = Document.CreateElement(property.Name, value);
                     item.AppendChild(element);
                 }
                 items.AppendChild(item);

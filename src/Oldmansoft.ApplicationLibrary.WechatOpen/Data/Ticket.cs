@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Data
     /// <summary>
     /// 票据结果
     /// </summary>
-    public class TicketResponse
+    public class Ticket
     {
         /// <summary>
         /// 票据

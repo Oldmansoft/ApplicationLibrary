@@ -23,9 +23,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
             TicketStore = new Provider.InProcess.TicketStore();
         }
 
-        private TicketResponse RequestTicket()
+        private Ticket RequestTicket()
         {
-            var result = Visitor.Get<TicketResponse>(
+            var result = Visitor.Get<Ticket>(
                 string.Format(
                     "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=jsapi",
                     Platform.GetPlatformTokenString()
@@ -35,7 +35,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
             return result;
         }
 
-        public TicketResponse GetTicket()
+        public Ticket GetTicket()
         {
             var result = TicketStore.Get(Platform.Config.AppId);
             if (result == null || result.IsExpire())
@@ -70,7 +70,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
         /// <returns></returns>
         public string Signature(string noncestr, long timestamp, string url)
         {
-            var input = new SignatureRequest();
+            var input = new SignatureContext();
             input.noncestr = noncestr;
             input.timestamp = timestamp;
             input.url = url;

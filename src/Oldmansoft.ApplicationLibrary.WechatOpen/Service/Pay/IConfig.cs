@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oldmansoft.ApplicationLibrary.WechatOpen
+namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 {
-    /// <summary>
-    /// 配置
-    /// </summary>
     public interface IConfig
     {
         /// <summary>
@@ -17,8 +14,13 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         string AppId { get; }
 
         /// <summary>
-        /// 应用密钥
+        /// 商户号
         /// </summary>
-        string AppSecret { get; }
+        string MchId { get; }
+
+        /// <summary>
+        /// 商户密钥
+        /// </summary>
+        string MchKey { get; }
     }
 }

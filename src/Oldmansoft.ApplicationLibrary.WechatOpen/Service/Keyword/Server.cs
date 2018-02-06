@@ -11,14 +11,14 @@ using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
 using System.Reflection;
 using System.Xml;
 
-namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
+namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Keyword
 {
     /// <summary>
     /// 关键字响应服务
     /// </summary>
-    public class KeywordServer : IMessageResponse
+    public class Server : Message.IResponse
     {
-        private IMessageResponse Origin { get; set; }
+        private Message.IResponse Origin { get; set; }
 
         internal ConcurrentDictionary<string, KeywordDealer> Dealers { get; private set; }
         
@@ -28,7 +28,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
 
         public IPositionStore PositionStore { get { return Origin.PositionStore; } }
 
-        IPlatform IMessageResponse.Platform
+        IPlatform Message.IResponse.Platform
         {
             get
             {
@@ -36,7 +36,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
             }
         }
 
-        public KeywordServer(IMessageResponse server, KeywordType type = KeywordType.ClickAndInput)
+        public Server(Message.IResponse server, KeywordType type = KeywordType.ClickAndInput)
         {
             DefaultMessage = ReplyMessage.Null;
             Dealers = new ConcurrentDictionary<string, KeywordDealer>();

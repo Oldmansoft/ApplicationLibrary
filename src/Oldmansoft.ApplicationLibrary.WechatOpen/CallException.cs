@@ -177,7 +177,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             Code = code;
         }
 
-        internal static CallException Create(Data.ErrorResponse error)
+        internal static CallException Create(Data.Error error)
         {
             var code = error.errcode;
             string message;

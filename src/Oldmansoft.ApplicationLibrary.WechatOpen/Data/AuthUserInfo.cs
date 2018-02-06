@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Data
     /// <summary>
     /// 授权用户信息
     /// </summary>
-    public class AuthUserResponse
+    public class AuthUserInfo
     {
         /// <summary>
         /// 用户的唯一标识

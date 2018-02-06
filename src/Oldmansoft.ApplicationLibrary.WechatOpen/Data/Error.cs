@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Data
     /// <summary>
     /// 异常结果
     /// </summary>
-    class ErrorResponse
+    class Error
     {
         /// <summary>
         /// 全局返回码

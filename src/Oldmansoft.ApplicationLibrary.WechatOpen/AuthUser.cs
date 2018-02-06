@@ -54,7 +54,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// 获取用户 Token
         /// </summary>
         /// <returns></returns>
-        private UserTokenResponse GetUserToken()
+        private UserToken GetUserToken()
         {
             var token = UserTokenStore.Get(OpenId);
             if (token == null) throw new WechatException("请用户授权后再操作");
@@ -84,7 +84,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// 拉取用户信息(需scope为 snsapi_userinfo)
         /// </summary>
         /// <returns></returns>
-        public AuthUserResponse GetUserInfo()
+        public AuthUserInfo GetUserInfo()
         {
             var token = GetUserToken();
             return Auth.GetUserInfo(token.access_token, token.openid);

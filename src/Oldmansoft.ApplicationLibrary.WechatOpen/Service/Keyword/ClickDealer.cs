@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Keyword
 {
     class ClickDealer : InputDealer
     {
-        public ClickDealer(KeywordServer server)
+        public ClickDealer(Server server)
             : base(server)
         { }
 

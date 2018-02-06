@@ -48,13 +48,13 @@
     <Compile Include="CalledServerBusyException.cs" />
     <Compile Include="CallException.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="Data\AccessTokenResponse.cs" />
-    <Compile Include="Data\AccessUserResponse.cs" />
-    <Compile Include="Data\ErrorResponse.cs" />
-    <Compile Include="Data\SignatureRequest.cs" />
-    <Compile Include="Data\TicketResponse.cs" />
-    <Compile Include="Data\AuthUserResponse.cs" />
-    <Compile Include="Data\UserTokenResponse.cs" />
+    <Compile Include="Data\AccessToken.cs" />
+    <Compile Include="Data\AccessUserInfo.cs" />
+    <Compile Include="Data\Error.cs" />
+    <Compile Include="Data\SignatureContext.cs" />
+    <Compile Include="Data\Ticket.cs" />
+    <Compile Include="Data\AuthUserInfo.cs" />
+    <Compile Include="Data\UserToken.cs" />
     <Compile Include="Extends.cs" />
     <Compile Include="IConfig.cs" />
     <Compile Include="IPlatform.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="Provider\ITicketStore.cs" />
     <Compile Include="Provider\IUserTokenStore.cs" />
     <Compile Include="Platform.cs" />
-    <Compile Include="Service\KeywordServer.cs" />
+    <Compile Include="Service\Keyword\Server.cs" />
     <Compile Include="Service\Keyword\InputDealer.cs" />
     <Compile Include="Service\Keyword\KeywordDealer.cs" />
     <Compile Include="Service\Keyword\KeywordType.cs" />
@@ -84,13 +84,13 @@
     <Compile Include="Service\Message\Data\ReplyNull.cs" />
     <Compile Include="Service\Message\Data\ReplyText.cs" />
     <Compile Include="Service\Message\Dealer.cs" />
-    <Compile Include="Service\IMessageResponse.cs" />
+    <Compile Include="Service\Message\IResponse.cs" />
     <Compile Include="Service\JsSdk.cs" />
     <Compile Include="Service\Keyword\ClickDealer.cs" />
     <Compile Include="Service\Message\Dealers\MessageDealer.cs" />
     <Compile Include="Service\Message\Dealers\TextDealer.cs" />
     <Compile Include="Service\Message\ParameterSupporter.cs" />
-    <Compile Include="Service\MessageServer.cs" />
+    <Compile Include="Service\Message\Server.cs" />
     <Compile Include="Service\Message\MessageType.cs" />
     <Compile Include="Service\Message\Supporter\Event.cs" />
     <Compile Include="Service\Message\Supporter\Image.cs" />
@@ -111,12 +111,24 @@
     <Compile Include="Service\Message\Supporter\VoiceParameter.cs" />
     <Compile Include="Auth.cs" />
     <Compile Include="AuthUser.cs" />
+    <Compile Include="Service\Pay\Config.cs" />
+    <Compile Include="Service\Pay\Data\AppOrderRequest.cs" />
+    <Compile Include="Service\Pay\Data\JsapiOrderRequest.cs" />
+    <Compile Include="Service\Pay\Data\OrderRequestRequest.cs" />
+    <Compile Include="Service\Pay\Data\OrderResponse.cs" />
+    <Compile Include="Service\Pay\Data\UnifiedorderResponse.cs" />
+    <Compile Include="Service\Pay\IConfig.cs" />
+    <Compile Include="Service\Pay\Payment.cs" />
+    <Compile Include="Service\Pay\Data\UnifiedorderRequest.cs" />
+    <Compile Include="Service\Pay\PayType.cs" />
+    <Compile Include="Service\Pay\Util\XmlSerializer.cs" />
     <Compile Include="Visitor.cs" />
     <Compile Include="WechatException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

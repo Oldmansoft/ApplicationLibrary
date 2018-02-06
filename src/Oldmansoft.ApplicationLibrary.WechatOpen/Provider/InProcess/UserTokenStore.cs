@@ -16,9 +16,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Provider.InProcess
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public UserTokenResponse Get(string key)
+        public UserToken Get(string key)
         {
-            return Memory.Get(key) as UserTokenResponse;
+            return Memory.Get(key) as UserToken;
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Provider.InProcess
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public void Set(string key, UserTokenResponse value)
+        public void Set(string key, UserToken value)
         {
             Memory.Set(key, value, new System.Runtime.Caching.CacheItemPolicy() { AbsoluteExpiration = DateTime.Now.AddSeconds(value.expires_in) });
         }

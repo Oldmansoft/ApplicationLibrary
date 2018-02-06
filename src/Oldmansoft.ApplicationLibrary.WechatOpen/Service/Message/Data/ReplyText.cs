@@ -34,7 +34,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data
         /// <param name="elements"></param>
         protected override void SetBody(List<XmlElement> elements)
         {
-            elements.Add(Document.Create("Content", Content));
+            elements.Add(Extends.CreateElement(Document, "Content", Content));
         }
     }
 }

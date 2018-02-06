@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
 using System.Xml;
 
-namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
+namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
 {
     /// <summary>
     /// 消息响应接口
     /// </summary>
-    public interface IMessageResponse
+    public interface IResponse
     {
         IPlatform Platform { get; }
 

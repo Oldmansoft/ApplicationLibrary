@@ -11,12 +11,12 @@ using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter;
 
-namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
+namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
 {
     /// <summary>
     /// 消息响应服务
     /// </summary>
-    public class MessageServer : IMessageResponse
+    public class Server : IResponse
     {
         public IPlatform Platform { get; private set; }
 
@@ -36,7 +36,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
         /// </summary>
         public event Func<DealParameter, XmlDocument> OnNoDeal;
 
-        public MessageServer(IPlatform platform)
+        public Server(IPlatform platform)
         {
             if (platform == null) throw new ArgumentNullException();
             Platform = platform;

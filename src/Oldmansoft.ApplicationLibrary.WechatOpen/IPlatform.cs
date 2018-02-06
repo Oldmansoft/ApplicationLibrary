@@ -12,7 +12,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
 
         Provider.IPositionStore PositionStore { get; }
 
-        Data.AccessTokenResponse GetPlatformToken();
+        Data.AccessToken GetPlatformToken();
 
         string GetPlatformTokenString();
     }

@@ -26,9 +26,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             UserTokenStore = new Provider.InProcess.UserTokenStore();
         }
 
-        AuthUserResponse IAuth.GetUserInfo(string userToken, string openid)
+        AuthUserInfo IAuth.GetUserInfo(string userToken, string openid)
         {
-            return Visitor.Get<AuthUserResponse>(
+            return Visitor.Get<AuthUserInfo>(
                 string.Format(
                     "https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN",
                     Uri.EscapeDataString(userToken),
@@ -37,9 +37,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             );
         }
 
-        UserTokenResponse IAuth.GetUserToken(string code)
+        UserToken IAuth.GetUserToken(string code)
         {
-            var result = Visitor.Get<UserTokenResponse>(
+            var result = Visitor.Get<UserToken>(
                 string.Format(
                     "https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code",
                     Config.AppId,
@@ -54,7 +54,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
 
         string IAuth.RefreshUserToken(string refreshToken)
         {
-            return Visitor.Get<UserTokenResponse>(
+            return Visitor.Get<UserToken>(
                 string.Format(
                     "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid={0}&grant_type=refresh_token&refresh_token={1}",
                     Config.AppId,

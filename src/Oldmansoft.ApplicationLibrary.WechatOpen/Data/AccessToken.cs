@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Data
     /// <summary>
     /// AccessToken 结果
     /// </summary>
-    public class AccessTokenResponse
+    public class AccessToken
     {
         /// <summary>
         /// Token

@@ -10,9 +10,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Keyword
 {
     class InputDealer : Message.Dealers.MessageDealer
     {
-        private KeywordServer Server { get; set; }
+        private Server Server { get; set; }
 
-        public InputDealer(KeywordServer server)
+        public InputDealer(Server server)
         {
             Server = server;
         }

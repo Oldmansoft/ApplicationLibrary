@@ -4,21 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oldmansoft.ApplicationLibrary.WechatOpen
+namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 {
     /// <summary>
-    /// 配置
+    /// 支付类型
     /// </summary>
-    public interface IConfig
+    public enum PayType
     {
         /// <summary>
-        /// 公众账号ID
+        /// 原生扫码支付
         /// </summary>
-        string AppId { get; }
+        NATIVE,
 
         /// <summary>
-        /// 应用密钥
+        /// app支付
         /// </summary>
-        string AppSecret { get; }
+        APP
     }
 }

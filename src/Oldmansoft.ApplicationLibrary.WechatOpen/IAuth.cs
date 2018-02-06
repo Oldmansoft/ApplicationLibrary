@@ -17,7 +17,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        UserTokenResponse GetUserToken(string code);
+        UserToken GetUserToken(string code);
 
         /// <summary>
         /// 刷新用户 Token
@@ -32,6 +32,6 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// <param name="userToken"></param>
         /// <param name="openid"></param>
         /// <returns></returns>
-        AuthUserResponse GetUserInfo(string userToken, string openid);
+        AuthUserInfo GetUserInfo(string userToken, string openid);
     }
 }

@@ -19,7 +19,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             }
             if (content.IndexOf("\"errcode\"") > -1)
             {
-                var error = Newtonsoft.Json.JsonConvert.DeserializeObject<Data.ErrorResponse>(content);
+                var error = Newtonsoft.Json.JsonConvert.DeserializeObject<Data.Error>(content);
                 if (error.errcode != 0)
                 {
                     throw CallException.Create(error);
@@ -53,7 +53,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
                 throw new FormatException(string.Format("没有解析：{0}", content));
             }
 
-            var error = Newtonsoft.Json.JsonConvert.DeserializeObject<Data.ErrorResponse>(content);
+            var error = Newtonsoft.Json.JsonConvert.DeserializeObject<Data.Error>(content);
             if (error.errcode != 0)
             {
                 throw CallException.Create(error);
@@ -82,7 +82,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             }
             if (content.IndexOf("\"errcode\"") > -1)
             {
-                var error = Newtonsoft.Json.JsonConvert.DeserializeObject<Data.ErrorResponse>(content);
+                var error = Newtonsoft.Json.JsonConvert.DeserializeObject<Data.Error>(content);
                 if (error.errcode != 0)
                 {
                     throw CallException.Create(error);

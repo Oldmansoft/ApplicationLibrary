@@ -66,10 +66,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data
             var result = new XmlDocument();
             result.LoadXml("<xml></xml>");
             var root = result.DocumentElement;
-            root.AppendChild(result.Create("ToUserName", toUserName));
-            root.AppendChild(result.Create("FromUserName", fromUserName));
-            root.AppendChild(result.Create("CreateTime", GetNowInt()));
-            root.AppendChild(result.Create("MsgType", this.Type));
+            root.AppendChild(Extends.CreateElement(result, "ToUserName", toUserName));
+            root.AppendChild(Extends.CreateElement(result, "FromUserName", fromUserName));
+            root.AppendChild(result.CreateElement("CreateTime", GetNowInt()));
+            root.AppendChild(Extends.CreateElement(result, "MsgType", this.Type));
             Document = result;
             foreach (var element in GetElements())
             {

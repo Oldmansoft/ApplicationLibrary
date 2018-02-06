@@ -26,9 +26,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             PositionStore = new Provider.InProcess.PositionStore();
         }
 
-        private AccessTokenResponse RequestAccessToken()
+        private AccessToken RequestAccessToken()
         {
-            var result = Visitor.Get<AccessTokenResponse>(
+            var result = Visitor.Get<AccessToken>(
                 string.Format(
                     "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}",
                     Config.AppId,
@@ -39,7 +39,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             return result;
         }
 
-        public AccessTokenResponse GetPlatformToken()
+        public AccessToken GetPlatformToken()
         {
             var result = AccessTokenStore.Get(Config.AppId);
             if (result == null || result.IsExpired())
@@ -67,9 +67,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// </summary>
         /// <param name="openid"></param>
         /// <returns></returns>
-        public AccessUserResponse GetUserInfo(string openid)
+        public AccessUserInfo GetUserInfo(string openid)
         {
-            return Visitor.Get<AccessUserResponse>(
+            return Visitor.Get<AccessUserInfo>(
                 string.Format(
                     "https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN",
                     GetPlatformTokenString(),
