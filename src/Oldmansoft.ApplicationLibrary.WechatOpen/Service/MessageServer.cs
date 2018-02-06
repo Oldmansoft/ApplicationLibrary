@@ -14,16 +14,18 @@ using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter;
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
 {
     /// <summary>
-    /// 消息处理服务
+    /// 消息响应服务
     /// </summary>
     public class MessageServer : IMessageResponse
     {
-        private IPlatform Server { get; set; }
+        public IPlatform Platform { get; private set; }
 
         private System.Collections.Concurrent.ConcurrentDictionary<MessageType, MessageDealer> MessageDealers { get; set; }
 
         private Dictionary<string, ParameterSupporter> ParameterSupporters { get; set; }
-        
+
+        public IPositionStore PositionStore { get; private set; }
+
         /// <summary>
         /// 没有处理消息时
         /// </summary>
@@ -34,14 +36,14 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
         /// </summary>
         public event Func<DealParameter, XmlDocument> OnNoDeal;
 
-        public MessageServer(IPlatform server, IPositionStore positionStore)
+        public MessageServer(IPlatform platform)
         {
-            if (server == null) throw new ArgumentNullException();
-            Server = server;
-
+            if (platform == null) throw new ArgumentNullException();
+            Platform = platform;
+            PositionStore = platform.PositionStore;
             MessageDealers = new System.Collections.Concurrent.ConcurrentDictionary<MessageType, MessageDealer>();
             ParameterSupporters = new Dictionary<string, ParameterSupporter>(StringComparer.CurrentCultureIgnoreCase);
-            AddParameterSupporter(new Event(positionStore));
+            AddParameterSupporter(new Event(PositionStore));
             AddParameterSupporter(new Image());
             AddParameterSupporter(new Link());
             AddParameterSupporter(new Location());
@@ -59,7 +61,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
         public void AddMessageDealer(MessageDealer dealer)
         {
             if (dealer == null) throw new ArgumentNullException();
-            dealer.SetServer(Server);
+            dealer.SetPlatform(Platform);
             if (MessageDealers.TryAdd(dealer.GetMessageType(), dealer)) return;
             throw new ArgumentException(string.Format("重复消息类型处理: {0}", dealer.GetMessageType().ToString()));
         }
@@ -137,7 +139,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
             if (fromUserName == null) return false;
 
             head = new InputHead();
-            head.AppId = Server.Config.AppId;
+            head.AppId = Platform.Config.AppId;
             head.MsgType = msgType;
             head.ToUserName = toUserName;
             head.FromUserName = fromUserName;

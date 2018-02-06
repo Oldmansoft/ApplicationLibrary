@@ -10,7 +10,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Provider.InProcess
     /// <summary>
     /// 位置存储器
     /// </summary>
-    public class PositionStore : IPositionStore
+    class PositionStore : IPositionStore
     {
         private static System.Runtime.Caching.MemoryCache Memory = new System.Runtime.Caching.MemoryCache("PositionStore");
 

@@ -16,11 +16,14 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
 
         public IAccessTokenStore AccessTokenStore { get; set; }
 
+        public IPositionStore PositionStore { get; set; }
+
         public Platform(IConfig config)
         {
             if (config == null) throw new ArgumentNullException();
             Config = config;
             AccessTokenStore = new Provider.InProcess.AccessTokenStore();
+            PositionStore = new Provider.InProcess.PositionStore();
         }
 
         private AccessTokenResponse RequestAccessToken()

@@ -71,6 +71,11 @@
     <Compile Include="Provider\ITicketStore.cs" />
     <Compile Include="Provider\IUserTokenStore.cs" />
     <Compile Include="Platform.cs" />
+    <Compile Include="Service\KeywordServer.cs" />
+    <Compile Include="Service\Keyword\InputDealer.cs" />
+    <Compile Include="Service\Keyword\KeywordDealer.cs" />
+    <Compile Include="Service\Keyword\KeywordType.cs" />
+    <Compile Include="Service\Keyword\NotMatchDealer.cs" />
     <Compile Include="Service\Message\Data\Article.cs" />
     <Compile Include="Service\Message\Data\DealParameter.cs" />
     <Compile Include="Service\Message\Data\InputHead.cs" />
@@ -81,6 +86,7 @@
     <Compile Include="Service\Message\Dealer.cs" />
     <Compile Include="Service\IMessageResponse.cs" />
     <Compile Include="Service\JsSdk.cs" />
+    <Compile Include="Service\Keyword\ClickDealer.cs" />
     <Compile Include="Service\Message\Dealers\MessageDealer.cs" />
     <Compile Include="Service\Message\Dealers\TextDealer.cs" />
     <Compile Include="Service\Message\ParameterSupporter.cs" />

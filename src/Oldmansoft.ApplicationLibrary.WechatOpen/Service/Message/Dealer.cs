@@ -15,11 +15,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
         /// <summary>
         /// 服务接口
         /// </summary>
-        protected IPlatform Server { get; private set; }
+        protected IPlatform Platform { get; private set; }
 
-        internal void SetServer(IPlatform server)
+        internal void SetPlatform(IPlatform platform)
         {
-            Server = server;
+            Platform = platform;
         }
 
         /// <summary>

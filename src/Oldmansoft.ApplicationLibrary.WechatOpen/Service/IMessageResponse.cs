@@ -5,14 +5,22 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
+using System.Xml;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
 {
     /// <summary>
-    /// 消息服务接口
+    /// 消息响应接口
     /// </summary>
     public interface IMessageResponse
     {
+        IPlatform Platform { get; }
+
+        /// <summary>
+        /// 位置存储器
+        /// </summary>
+        Provider.IPositionStore PositionStore { get; }
+
         /// <summary>
         /// 注册消息处理对象
         /// </summary>
@@ -24,5 +32,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
         /// </summary>
         /// <param name="assembly"></param>
         void AddMessageDealerFromAssembly(Assembly assembly);
+
+        XmlDocument Deal(XmlDocument input);
     }
 }
