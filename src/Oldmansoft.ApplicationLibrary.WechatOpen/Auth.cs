@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Data;
+using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen
 {
@@ -14,9 +15,15 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
     {
         private IConfig Config { get; set; }
 
+        /// <summary>
+        /// 用户 Token 存储器
+        /// </summary>
+        public IUserTokenStore UserTokenStore { get; set; }
+        
         public Auth(IConfig config)
         {
             Config = config;
+            UserTokenStore = new Provider.InProcess.UserTokenStore();
         }
 
         AuthUserResponse IAuth.GetUserInfo(string userToken, string openid)
@@ -58,12 +65,12 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
 
         public AuthUser FromCache(string openId)
         {
-            return AuthUser.CreateFromCache(this, openId);
+            return AuthUser.CreateFromCache(this, UserTokenStore, openId);
         }
 
         public AuthUser Login(string code)
         {
-            return AuthUser.CreateLogin(this, code);
+            return AuthUser.CreateLogin(this, UserTokenStore, code);
         }
     }
 }

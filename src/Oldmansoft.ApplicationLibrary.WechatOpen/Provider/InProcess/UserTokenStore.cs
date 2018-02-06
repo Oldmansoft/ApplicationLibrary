@@ -28,7 +28,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Provider.InProcess
         /// <param name="value"></param>
         public void Set(string key, UserTokenResponse value)
         {
-            Memory.Set(key, value, new System.Runtime.Caching.CacheItemPolicy() { SlidingExpiration = new TimeSpan(0, 0, value.expires_in) });
+            Memory.Set(key, value, new System.Runtime.Caching.CacheItemPolicy() { AbsoluteExpiration = DateTime.Now.AddSeconds(value.expires_in) });
         }
     }
 }

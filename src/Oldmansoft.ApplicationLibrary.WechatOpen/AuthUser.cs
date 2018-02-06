@@ -26,25 +26,26 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// 创建授权用户
         /// </summary>
         /// <param name="auth"></param>
-        private AuthUser(IAuth auth)
+        /// <param name="store"></param>
+        private AuthUser(IAuth auth, IUserTokenStore store)
         {
             if (auth == null) throw new ArgumentNullException("auth");
             Auth = auth;
             UserTokenStore = new Provider.InProcess.UserTokenStore();
         }
 
-        internal static AuthUser CreateLogin(IAuth auth, string code)
+        internal static AuthUser CreateLogin(IAuth auth, IUserTokenStore store, string code)
         {
-            var result = new AuthUser(auth);
+            var result = new AuthUser(auth, store);
             var token = result.Auth.GetUserToken(code);
             result.OpenId = token.openid;
             result.UserTokenStore.Set(result.OpenId, token);
             return result;
         }
 
-        internal static AuthUser CreateFromCache(IAuth auth, string openId)
+        internal static AuthUser CreateFromCache(IAuth auth, IUserTokenStore store, string openId)
         {
-            var result = new AuthUser(auth);
+            var result = new AuthUser(auth, store);
             result.OpenId = openId;
             return result;
         }

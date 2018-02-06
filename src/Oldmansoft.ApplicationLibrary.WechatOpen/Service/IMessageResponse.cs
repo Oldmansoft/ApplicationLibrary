@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.MessageDealers;
+using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
 {

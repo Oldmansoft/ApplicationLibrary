@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Data;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.MessageDealers;
+using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message;
+using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data;
+using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
+using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
 {
@@ -20,7 +22,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
 
         private System.Collections.Concurrent.ConcurrentDictionary<MessageType, MessageDealer> MessageDealers { get; set; }
 
-        private Dictionary<string, MessageParameterSupporter> ParameterSupporters { get; set; }
+        private Dictionary<string, ParameterSupporter> ParameterSupporters { get; set; }
         
         /// <summary>
         /// 没有处理消息时
@@ -38,18 +40,18 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
             Server = server;
 
             MessageDealers = new System.Collections.Concurrent.ConcurrentDictionary<MessageType, MessageDealer>();
-            ParameterSupporters = new Dictionary<string, MessageParameterSupporter>(StringComparer.CurrentCultureIgnoreCase);
-            AddParameterSupporter(new ParameterSupporter.Event(positionStore));
-            AddParameterSupporter(new ParameterSupporter.Image());
-            AddParameterSupporter(new ParameterSupporter.Link());
-            AddParameterSupporter(new ParameterSupporter.Location());
-            AddParameterSupporter(new ParameterSupporter.ShortVideo());
-            AddParameterSupporter(new ParameterSupporter.Text());
-            AddParameterSupporter(new ParameterSupporter.Video());
-            AddParameterSupporter(new ParameterSupporter.Voice());
+            ParameterSupporters = new Dictionary<string, ParameterSupporter>(StringComparer.CurrentCultureIgnoreCase);
+            AddParameterSupporter(new Event(positionStore));
+            AddParameterSupporter(new Image());
+            AddParameterSupporter(new Link());
+            AddParameterSupporter(new Location());
+            AddParameterSupporter(new ShortVideo());
+            AddParameterSupporter(new Text());
+            AddParameterSupporter(new Video());
+            AddParameterSupporter(new Voice());
         }
 
-        private void AddParameterSupporter(MessageParameterSupporter supporter)
+        public void AddParameterSupporter(ParameterSupporter supporter)
         {
             ParameterSupporters.Add(supporter.DealType.ToString(), supporter);
         }
@@ -85,7 +87,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
             InputHead head;
             if (!InitInputHead(input.DocumentElement, out head)) return null;
 
-            MessageParameterSupporter parameterSupporter;
+            ParameterSupporter parameterSupporter;
             if (!ParameterSupporters.TryGetValue(head.MsgType, out parameterSupporter))
             {
                 throw new NotImplementedException(string.Format("{0} 没有实现", head.MsgType));
