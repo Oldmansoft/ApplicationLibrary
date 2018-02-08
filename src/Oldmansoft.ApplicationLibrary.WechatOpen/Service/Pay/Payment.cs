@@ -6,12 +6,22 @@ using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 {
+    /// <summary>
+    /// 支付
+    /// </summary>
     public class Payment
     {
+        /// <summary>
+        /// 成功消息
+        /// </summary>
         public static readonly string Success = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 
         private IConfig Config { get; set; }
 
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="config"></param>
         public Payment(IConfig config)
         {
             if (config == null) throw new ArgumentNullException();
@@ -53,6 +63,12 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             return result;
         }
 
+        /// <summary>
+        /// 签名
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public string Sign<T>(T input)
             where T : class
         {
@@ -82,6 +98,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             return content.ToString().GetMd5Hash();
         }
 
+        /// <summary>
+        /// 签名
+        /// </summary>
+        /// <param name="dom"></param>
+        /// <returns></returns>
         public string Sign(System.Xml.XmlDocument dom)
         {
             var content = new StringBuilder();
@@ -101,11 +122,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             content.Append(Config.MchKey);
             return content.ToString().GetMd5Hash();
         }
-        
+
         /// <summary>
         /// 下单
         /// </summary>
-        /// <param name="param"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public Data.UnifiedorderResponse Unifiedorder(Data.UnifiedorderRequest request)
         {
@@ -124,29 +145,29 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             dom.LoadXml(content);
             return Util.XmlSerializer.Deserialize<Data.UnifiedorderResponse>(dom);
         }
-
+        
         /// <summary>
-        /// 时间戳
+        /// 获取 Jsapi 内容
         /// </summary>
+        /// <param name="response"></param>
         /// <returns></returns>
-        private int GetNowInt()
-        {
-            var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            return (int)(DateTime.Now - startTime).TotalSeconds;
-        }
-
         public Data.JsapiOrderRequest FromJsapi(Data.UnifiedorderResponse response)
         {
             var result = new Data.JsapiOrderRequest();
             result.appId = Config.AppId;
             result.package = string.Format("prepay_id={0}", response.prepay_id);
-            result.timeStamp = GetNowInt().ToString();
+            result.timeStamp = DateTime.Now.GetUnixTimestamp().ToString();
             result.signType = "MD5";
             result.nonceStr = Guid.NewGuid().ToString("N");
             result.paySign = Sign(result);
             return result;
         }
 
+        /// <summary>
+        /// 获取 App 内容
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
         public Data.AppOrderRequest FromApp(Data.UnifiedorderResponse response)
         {
             var result = new Data.AppOrderRequest();
@@ -154,26 +175,35 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             result.partnerid = Config.MchId;
             result.prepayid = response.prepay_id;
             result.package = "Sign=WXPay";
-            result.timestamp = GetNowInt().ToString();
+            result.timestamp = DateTime.Now.GetUnixTimestamp().ToString();
             result.noncestr = Guid.NewGuid().ToString("N");
             return result;
         }
 
+        /// <summary>
+        /// 获取二维码地址
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
         public string FromNavite(Data.UnifiedorderResponse response)
         {
             return response.code_url;
         }
         
-        public Data.OrderResponse Order(System.Xml.XmlDocument dom)
+        /// <summary>
+        /// 解析订单
+        /// </summary>
+        /// <param name="dom"></param>
+        /// <returns></returns>
+        public Data.OrderResponse Parse(System.Xml.XmlDocument dom)
         {
             return Util.XmlSerializer.Deserialize<Data.OrderResponse>(dom);
         }
 
-
         /// <summary>
         /// 查询订单
         /// </summary>
-        /// <param name="param"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         public Data.OrderResponse OrderQuery(Data.OrderRequestRequest request)
         {

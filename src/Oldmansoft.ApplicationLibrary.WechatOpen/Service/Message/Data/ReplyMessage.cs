@@ -43,18 +43,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data
         /// 空对象
         /// </summary>
         internal readonly static ReplyMessage Null = new ReplyNull();
-
-        private int GetNowInt()
-        {
-            var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            return (int)(DateTime.Now - startTime).TotalSeconds;
-        }
-
-        internal static DateTime GetDateTimeFromInt(int totalSeconds)
-        {
-            return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).AddSeconds(totalSeconds);
-        }
-
+        
         /// <summary>
         /// 创建微信接口格式的 xml 文档
         /// </summary>
@@ -68,7 +57,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data
             var root = result.DocumentElement;
             root.AppendChild(Extends.CreateElement(result, "ToUserName", toUserName));
             root.AppendChild(Extends.CreateElement(result, "FromUserName", fromUserName));
-            root.AppendChild(result.CreateElement("CreateTime", GetNowInt()));
+            root.AppendChild(result.CreateElement("CreateTime", DateTime.Now.GetUnixTimestamp()));
             root.AppendChild(Extends.CreateElement(result, "MsgType", this.Type));
             Document = result;
             foreach (var element in GetElements())

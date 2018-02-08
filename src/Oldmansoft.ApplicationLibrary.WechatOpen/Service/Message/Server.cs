@@ -18,14 +18,15 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
     /// </summary>
     public class Server : IResponse
     {
-        public IPlatform Platform { get; private set; }
-
         private System.Collections.Concurrent.ConcurrentDictionary<MessageType, MessageDealer> MessageDealers { get; set; }
 
         private Dictionary<string, ParameterSupporter> ParameterSupporters { get; set; }
 
-        public IPositionStore PositionStore { get; private set; }
-
+        /// <summary>
+        /// 平台
+        /// </summary>
+        public IPlatform Platform { get; private set; }
+        
         /// <summary>
         /// 没有处理消息时
         /// </summary>
@@ -36,14 +37,17 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
         /// </summary>
         public event Func<DealParameter, XmlDocument> OnNoDeal;
 
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="platform"></param>
         public Server(IPlatform platform)
         {
             if (platform == null) throw new ArgumentNullException();
             Platform = platform;
-            PositionStore = platform.PositionStore;
             MessageDealers = new System.Collections.Concurrent.ConcurrentDictionary<MessageType, MessageDealer>();
             ParameterSupporters = new Dictionary<string, ParameterSupporter>(StringComparer.CurrentCultureIgnoreCase);
-            AddParameterSupporter(new Event(PositionStore));
+            AddParameterSupporter(new Event(platform.PositionStore));
             AddParameterSupporter(new Image());
             AddParameterSupporter(new Link());
             AddParameterSupporter(new Location());
@@ -53,11 +57,19 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
             AddParameterSupporter(new Voice());
         }
 
+        /// <summary>
+        /// 添加参数支持者
+        /// </summary>
+        /// <param name="supporter"></param>
         public void AddParameterSupporter(ParameterSupporter supporter)
         {
             ParameterSupporters.Add(supporter.DealType.ToString(), supporter);
         }
 
+        /// <summary>
+        /// 添加消息处理者
+        /// </summary>
+        /// <param name="dealer"></param>
         public void AddMessageDealer(MessageDealer dealer)
         {
             if (dealer == null) throw new ArgumentNullException();
@@ -66,6 +78,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
             throw new ArgumentException(string.Format("重复消息类型处理: {0}", dealer.GetMessageType().ToString()));
         }
 
+        /// <summary>
+        /// 从程序集添加消息处理者
+        /// </summary>
+        /// <param name="assembly"></param>
         public void AddMessageDealerFromAssembly(Assembly assembly)
         {
             foreach (var type in assembly.GetTypes())
@@ -144,7 +160,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
             head.ToUserName = toUserName;
             head.FromUserName = fromUserName;
             if (msgId != null) head.MsgId = long.Parse(msgId);
-            head.CreateTime = ReplyMessage.GetDateTimeFromInt(int.Parse(createTime));
+            head.CreateTime = int.Parse(createTime).GetLocalTime();
             return true;
         }
 

@@ -8,14 +8,24 @@ using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
 {
+    /// <summary>
+    /// JsSDK
+    /// </summary>
     public class JsSdk
     {
         private static object RefreshTicket_Locker = new object();
 
         private IPlatform Platform { get; set; }
-        
+
+        /// <summary>
+        /// 票据存储
+        /// </summary>
         public ITicketStore TicketStore { get; set; }
 
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="platform"></param>
         public JsSdk(IPlatform platform)
         {
             if (platform == null) throw new ArgumentNullException();
@@ -35,6 +45,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
             return result;
         }
 
+        /// <summary>
+        /// 获取票据
+        /// </summary>
+        /// <returns></returns>
         public Ticket GetTicket()
         {
             var result = TicketStore.Get(Platform.Config.AppId);
@@ -53,6 +67,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
             return result;
         }
 
+        /// <summary>
+        /// 获取票据
+        /// </summary>
+        /// <returns></returns>
         public string GetTicketString()
         {
             return GetTicket().ticket;

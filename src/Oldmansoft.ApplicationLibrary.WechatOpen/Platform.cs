@@ -8,16 +8,33 @@ using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen
 {
+    /// <summary>
+    /// 开放平台
+    /// </summary>
     public class Platform : IPlatform
     {
         private static object RefreshAccessToken_Locker = new object();
 
+        /// <summary>
+        /// 获取配置
+        /// </summary>
         public IConfig Config { get; private set; }
 
+        /// <summary>
+        /// 获取和设置 Token 存储
+        /// </summary>
         public IAccessTokenStore AccessTokenStore { get; set; }
 
+        /// <summary>
+        /// 获取和设置位置存储
+        /// 消息回调服务使用
+        /// </summary>
         public IPositionStore PositionStore { get; set; }
 
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="config"></param>
         public Platform(IConfig config)
         {
             if (config == null) throw new ArgumentNullException();
@@ -39,6 +56,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             return result;
         }
 
+        /// <summary>
+        /// 获取 Token
+        /// </summary>
+        /// <returns></returns>
         public AccessToken GetPlatformToken()
         {
             var result = AccessTokenStore.Get(Config.AppId);
@@ -57,6 +78,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             return result;
         }
 
+        /// <summary>
+        /// 获取 Token
+        /// </summary>
+        /// <returns></returns>
         public string GetPlatformTokenString()
         {
             return GetPlatformToken().access_token;

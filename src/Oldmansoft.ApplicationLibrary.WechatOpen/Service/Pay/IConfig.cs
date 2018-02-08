@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 {
+    /// <summary>
+    /// 商户配置
+    /// </summary>
     public interface IConfig
     {
         /// <summary>

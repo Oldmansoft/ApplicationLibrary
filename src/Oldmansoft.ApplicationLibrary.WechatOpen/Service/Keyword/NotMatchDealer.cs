@@ -11,6 +11,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Keyword
     /// </summary>
     public abstract class NotMatchDealer : KeywordDealer
     {
+        /// <summary>
+        /// 关键字
+        /// </summary>
         protected override string[] Keywords
         {
             get

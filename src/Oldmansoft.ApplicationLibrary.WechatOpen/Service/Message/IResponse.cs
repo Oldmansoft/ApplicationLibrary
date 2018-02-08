@@ -14,13 +14,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
     /// </summary>
     public interface IResponse
     {
-        IPlatform Platform { get; }
-
         /// <summary>
-        /// 位置存储器
+        /// 平台
         /// </summary>
-        Provider.IPositionStore PositionStore { get; }
-
+        IPlatform Platform { get; }
+        
         /// <summary>
         /// 注册消息处理对象
         /// </summary>
@@ -33,6 +31,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
         /// <param name="assembly"></param>
         void AddMessageDealerFromAssembly(Assembly assembly);
 
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         XmlDocument Deal(XmlDocument input);
     }
 }

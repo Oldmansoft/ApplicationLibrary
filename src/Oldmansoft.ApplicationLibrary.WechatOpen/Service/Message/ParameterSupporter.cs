@@ -17,6 +17,12 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
         /// </summary>
         internal abstract MessageType DealType { get; }
 
+        /// <summary>
+        /// 创建结果
+        /// </summary>
+        /// <param name="dealType"></param>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         protected DealParameter Result(MessageType dealType, object parameter)
         {
             var result = new DealParameter();
@@ -25,6 +31,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
             return result;
         }
 
+        /// <summary>
+        /// 创建结果
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         protected DealParameter Result(object parameter)
         {
             return Result(DealType, parameter);

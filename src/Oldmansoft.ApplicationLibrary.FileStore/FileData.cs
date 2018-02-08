@@ -14,24 +14,52 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
     {
         private Stream Stream;
 
+        /// <summary>
+        /// 文件序号
+        /// </summary>
         public string Id { get; private set; }
 
+        /// <summary>
+        /// 文件名称
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// 文件类型
+        /// </summary>
         public string ContentType { get; private set; }
 
+        /// <summary>
+        /// 文件长度
+        /// </summary>
         public long ContentLength { get; private set; }
 
+        /// <summary>
+        /// 引用数量
+        /// </summary>
         public int Count { get; private set; }
 
+        /// <summary>
+        /// 文件位置
+        /// </summary>
         public string Location { get; set; }
 
+        /// <summary>
+        /// 创建时间
+        /// </summary>
         public DateTime CreatedTime { get; private set; }
         
         private FileData()
         {
         }
 
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="name"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
         public static FileData Create(Stream stream, string name, string contentType)
         {
             var domain = new FileData();

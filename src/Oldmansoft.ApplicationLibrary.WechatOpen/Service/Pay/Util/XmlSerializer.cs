@@ -33,7 +33,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Util
         /// 反序列化
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="context"></param>
+        /// <param name="dom"></param>
         /// <returns></returns>
         public static T Deserialize<T>(XmlDocument dom)
             where T : class, new()

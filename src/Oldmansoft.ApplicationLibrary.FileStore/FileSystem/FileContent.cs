@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
 {
+    /// <summary>
+    /// 文件内容
+    /// </summary>
     public class FileContent : IFileContent
     {
         private static object FileLocker = new object();
@@ -19,6 +22,11 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
         {
         }
 
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="basePath">根目录</param>
+        /// <returns></returns>
         public static FileContent Create(string basePath)
         {
             var domain = new FileContent();
@@ -46,6 +54,11 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
             return Path.Combine(path, fileName);
         }
 
+        /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="stream">文件流</param>
+        /// <returns></returns>
         public string Save(Stream stream)
         {
             var location = CreatePath();
@@ -63,6 +76,11 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
             return location;
         }
 
+        /// <summary>
+        /// 加载
+        /// </summary>
+        /// <param name="location">位置</param>
+        /// <returns></returns>
         public Stream Load(string location)
         {
             var result = new MemoryStream();
@@ -81,6 +99,10 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
             return result;
         }
 
+        /// <summary>
+        /// 移除
+        /// </summary>
+        /// <param name="location">位置</param>
         public void Remove(string location)
         {
             if (string.IsNullOrEmpty(location)) throw new ArgumentNullException("location");

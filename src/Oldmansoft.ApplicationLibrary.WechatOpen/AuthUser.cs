@@ -34,7 +34,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             UserTokenStore = new Provider.InProcess.UserTokenStore();
         }
 
-        internal static AuthUser CreateLogin(IAuth auth, IUserTokenStore store, string code)
+        internal static AuthUser Create(IAuth auth, IUserTokenStore store, string code)
         {
             var result = new AuthUser(auth, store);
             var token = result.Auth.GetUserToken(code);

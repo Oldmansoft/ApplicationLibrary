@@ -24,10 +24,12 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Keyword
         
         internal KeywordDealer NoMatchDealer { get; private set; }
         
+        /// <summary>
+        /// 默认消息
+        /// 没有对应处理时，调用的消息
+        /// </summary>
         public ReplyMessage DefaultMessage { get; set; }
-
-        public IPositionStore PositionStore { get { return Origin.PositionStore; } }
-
+        
         IPlatform Message.IResponse.Platform
         {
             get
@@ -36,6 +38,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Keyword
             }
         }
 
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="type"></param>
         public Server(Message.IResponse server, KeywordType type = KeywordType.ClickAndInput)
         {
             DefaultMessage = ReplyMessage.Null;

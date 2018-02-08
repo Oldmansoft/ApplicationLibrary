@@ -11,7 +11,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
     /// <summary>
     /// 网页授权
     /// </summary>
-    class Auth : IAuth
+    public class Auth : IAuth
     {
         private IConfig Config { get; set; }
 
@@ -20,6 +20,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// </summary>
         public IUserTokenStore UserTokenStore { get; set; }
         
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="config"></param>
         public Auth(IConfig config)
         {
             Config = config;
@@ -63,14 +67,24 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             ).access_token;
         }
 
+        /// <summary>
+        /// 从缓存中得到授权用户
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
         public AuthUser FromCache(string openId)
         {
             return AuthUser.CreateFromCache(this, UserTokenStore, openId);
         }
 
-        public AuthUser Login(string code)
+        /// <summary>
+        /// 从授码码得到授权用户
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public AuthUser FromCode(string code)
         {
-            return AuthUser.CreateLogin(this, UserTokenStore, code);
+            return AuthUser.Create(this, UserTokenStore, code);
         }
     }
 }
