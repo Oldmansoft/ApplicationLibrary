@@ -7,18 +7,17 @@ using System.Threading.Tasks;
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 {
     /// <summary>
-    /// 支付类型
+    /// 签名异常
     /// </summary>
-    public enum PayType
+    public class SignatureException : WechatException
     {
         /// <summary>
-        /// 原生扫码支付
+        /// 创建异常
         /// </summary>
-        NATIVE,
-
-        /// <summary>
-        /// app支付
-        /// </summary>
-        APP
+        /// <param name="message"></param>
+        public SignatureException(string message)
+            : base(message)
+        {
+        }
     }
 }

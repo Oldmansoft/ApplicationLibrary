@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 订单查询请求
     /// </summary>
-    public class OrderRequestRequest
+    public class OrderQueryRequest
     {
         /// <summary>
         /// 微信分配的公众账号ID（企业号corpid即为此appId）

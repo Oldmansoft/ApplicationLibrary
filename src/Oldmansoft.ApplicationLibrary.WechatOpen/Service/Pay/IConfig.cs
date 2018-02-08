@@ -25,5 +25,13 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// 商户密钥
         /// </summary>
         string MchKey { get; }
+
+        /// <summary>
+        /// 签名
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        string Signature<T>(T input) where T : class;
     }
 }

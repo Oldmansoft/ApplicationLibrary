@@ -41,5 +41,40 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             MchId = mchId;
             MchKey = mchKey;
         }
+        
+        /// <summary>
+        /// 签名
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public string Signature<T>(T input)
+            where T : class
+        {
+            if (input == null) throw new ArgumentNullException();
+            var sorted = new SortedDictionary<string, string>();
+            foreach (var property in typeof(T).GetProperties())
+            {
+                var value = property.GetValue(input);
+                if (value == null) continue;
+                sorted.Add(property.Name, value.ToString());
+            }
+
+            var content = new StringBuilder();
+            foreach (var item in sorted)
+            {
+                if (item.Key.ToLower() == "sign") continue;
+                if (item.Key.ToLower() == "signtype") continue;
+                if (string.IsNullOrWhiteSpace(item.Value)) continue;
+
+                content.Append(item.Key.Trim());
+                content.Append("=");
+                content.Append(item.Value.Trim());
+                content.Append("&");
+            }
+            content.Append("key=");
+            content.Append(MchKey);
+            return content.ToString().GetMd5Hash();
+        }
     }
 }

@@ -16,7 +16,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// </summary>
         public static readonly string Success = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 
-        private IConfig Config { get; set; }
+        /// <summary>
+        /// 商户配置
+        /// </summary>
+        public IConfig Config { get; private set; }
 
         /// <summary>
         /// 创建
@@ -37,65 +40,44 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <param name="notifyUrl">接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数。</param>
         /// <param name="openId">用户在商户appid下的唯一标识</param>
         /// <returns></returns>
-        public Data.UnifiedorderRequest CreateUnifiedorder4Jsapi(string outTradeNo, string title, int totalFee, string notifyUrl, string openId)
+        public UnifiedorderJsapi CreateUnifiedorderJsapi(string outTradeNo, string title, int totalFee, string notifyUrl, string openId)
         {
             if (string.IsNullOrEmpty(openId)) throw new ArgumentNullException("openId");
 
             var result = new Data.UnifiedorderRequest(Config.AppId, Config.MchId, outTradeNo, title, totalFee, notifyUrl);
             result.trade_type = "JSAPI";
             result.openid = openId;
-            return result;
+            return new UnifiedorderJsapi(Config, result);
         }
 
         /// <summary>
-        /// 下单请求
+        /// App 下单请求
         /// </summary>
         /// <param name="outTradeNo">商户订单号</param>
         /// <param name="title">商品或支付单简要描述</param>
         /// <param name="totalFee">订单总金额，单位为分</param>
         /// <param name="notifyUrl">接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数。</param>
-        /// <param name="type">交易类型</param>
         /// <returns></returns>
-        public Data.UnifiedorderRequest CreateUnifiedorder(string outTradeNo, string title, int totalFee, string notifyUrl, PayType type)
+        public UnifiedorderApp CreateUnifiedorderApp(string outTradeNo, string title, int totalFee, string notifyUrl)
         {
             var result = new Data.UnifiedorderRequest(Config.AppId, Config.MchId, outTradeNo, title, totalFee, notifyUrl);
-            result.trade_type = type.ToString();
-            return result;
+            result.trade_type = "APP";
+            return new UnifiedorderApp(Config, result);
         }
 
         /// <summary>
-        /// 签名
+        /// Navite 下单请求
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="input"></param>
+        /// <param name="outTradeNo">商户订单号</param>
+        /// <param name="title">商品或支付单简要描述</param>
+        /// <param name="totalFee">订单总金额，单位为分</param>
+        /// <param name="notifyUrl">接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数。</param>
         /// <returns></returns>
-        public string Sign<T>(T input)
-            where T : class
+        public UnifiedorderNavite CreateUnifiedorderNative(string outTradeNo, string title, int totalFee, string notifyUrl)
         {
-            if (input == null) throw new ArgumentNullException();
-            var sorted = new SortedDictionary<string, string>();
-            foreach (var property in typeof(T).GetProperties())
-            {
-                var value = property.GetValue(input);
-                if (value == null) continue;
-                sorted.Add(property.Name, value.ToString());
-            }
-
-            var content = new StringBuilder();
-            foreach (var item in sorted)
-            {
-                if (item.Key.ToLower() == "sign") continue;
-                if (item.Key.ToLower() == "signtype") continue;
-                if (string.IsNullOrWhiteSpace(item.Value)) continue;
-                
-                content.Append(item.Key.Trim());
-                content.Append("=");
-                content.Append(item.Value.Trim());
-                content.Append("&");
-            }
-            content.Append("key=");
-            content.Append(Config.MchKey);
-            return content.ToString().GetMd5Hash();
+            var result = new Data.UnifiedorderRequest(Config.AppId, Config.MchId, outTradeNo, title, totalFee, notifyUrl);
+            result.trade_type = "NATIVE";
+            return new UnifiedorderNavite(Config, result);
         }
 
         /// <summary>
@@ -103,7 +85,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// </summary>
         /// <param name="dom"></param>
         /// <returns></returns>
-        public string Sign(System.Xml.XmlDocument dom)
+        public string Signature(System.Xml.XmlDocument dom)
         {
             var content = new StringBuilder();
             var root = dom.DocumentElement;
@@ -122,82 +104,17 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             content.Append(Config.MchKey);
             return content.ToString().GetMd5Hash();
         }
-
-        /// <summary>
-        /// 下单
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public Data.UnifiedorderResponse Unifiedorder(Data.UnifiedorderRequest request)
-        {
-            if (request == null) throw new ArgumentNullException();
-            request.sign = Sign(request);
-            var xml = Util.XmlSerializer.Serialize(request).InnerXml;
-
-            string content;
-            using (var client = new System.Net.Http.HttpClient())
-            {
-                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/pay/unifiedorder"), new System.Net.Http.StringContent(xml)).Result;
-                content = response.Content.ReadAsStringAsync().Result;
-            }
-
-            var dom = new System.Xml.XmlDocument();
-            dom.LoadXml(content);
-            return Util.XmlSerializer.Deserialize<Data.UnifiedorderResponse>(dom);
-        }
-        
-        /// <summary>
-        /// 获取 Jsapi 内容
-        /// </summary>
-        /// <param name="response"></param>
-        /// <returns></returns>
-        public Data.JsapiOrderRequest FromJsapi(Data.UnifiedorderResponse response)
-        {
-            var result = new Data.JsapiOrderRequest();
-            result.appId = Config.AppId;
-            result.package = string.Format("prepay_id={0}", response.prepay_id);
-            result.timeStamp = DateTime.Now.GetUnixTimestamp().ToString();
-            result.signType = "MD5";
-            result.nonceStr = Guid.NewGuid().ToString("N");
-            result.paySign = Sign(result);
-            return result;
-        }
-
-        /// <summary>
-        /// 获取 App 内容
-        /// </summary>
-        /// <param name="response"></param>
-        /// <returns></returns>
-        public Data.AppOrderRequest FromApp(Data.UnifiedorderResponse response)
-        {
-            var result = new Data.AppOrderRequest();
-            result.appid = Config.AppId;
-            result.partnerid = Config.MchId;
-            result.prepayid = response.prepay_id;
-            result.package = "Sign=WXPay";
-            result.timestamp = DateTime.Now.GetUnixTimestamp().ToString();
-            result.noncestr = Guid.NewGuid().ToString("N");
-            return result;
-        }
-
-        /// <summary>
-        /// 获取二维码地址
-        /// </summary>
-        /// <param name="response"></param>
-        /// <returns></returns>
-        public string FromNavite(Data.UnifiedorderResponse response)
-        {
-            return response.code_url;
-        }
         
         /// <summary>
         /// 解析订单
         /// </summary>
         /// <param name="dom"></param>
         /// <returns></returns>
-        public Data.OrderResponse Parse(System.Xml.XmlDocument dom)
+        public Data.OrderResponse ParseOrder(System.Xml.XmlDocument dom)
         {
-            return Util.XmlSerializer.Deserialize<Data.OrderResponse>(dom);
+            var result = Util.XmlSerializer.Deserialize<Data.OrderResponse>(dom);
+            if (Signature(dom) != result.sign) throw new SignatureException("签名不一致");
+            return result;
         }
 
         /// <summary>
@@ -205,10 +122,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public Data.OrderResponse OrderQuery(Data.OrderRequestRequest request)
+        public Data.OrderResponse OrderQuery(Data.OrderQueryRequest request)
         {
             if (request == null) throw new ArgumentNullException();
-            request.sign = Sign(request);
+            request.sign = Config.Signature(request);
             var xml = Util.XmlSerializer.Serialize(request).InnerXml;
 
             string content;
