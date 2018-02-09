@@ -20,9 +20,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         public static string GetSHA1Hash(this string source)
         {
             if (string.IsNullOrEmpty(source)) throw new ArgumentNullException();
-            var cleanBytes = Encoding.Default.GetBytes(source);
-            var hashedBytes = System.Security.Cryptography.SHA1.Create().ComputeHash(cleanBytes);
-            return BitConverter.ToString(hashedBytes).Replace("-", "");
+            var input = Encoding.Default.GetBytes(source);
+            var hashed = System.Security.Cryptography.SHA1.Create().ComputeHash(input);
+            return BitConverter.ToString(hashed).Replace("-", "");
         }
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         public static string GetMd5Hash(this string source)
         {
             if (string.IsNullOrEmpty(source)) throw new ArgumentNullException();
-            var cleanBytes = Encoding.Default.GetBytes(source);
-            var hashedBytes = System.Security.Cryptography.MD5.Create().ComputeHash(cleanBytes);
-            return BitConverter.ToString(hashedBytes).Replace("-", "");
+            var input = Encoding.Default.GetBytes(source);
+            var hashed = new Util.Md5().ComputeHash(input);
+            return BitConverter.ToString(hashed).Replace("-", "");
         }
 
         /// <summary>
