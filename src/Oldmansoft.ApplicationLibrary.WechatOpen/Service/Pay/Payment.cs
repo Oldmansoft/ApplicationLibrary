@@ -139,5 +139,23 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             dom.LoadXml(content);
             return Util.XmlSerializer.Deserialize<Data.OrderResponse>(dom);
         }
+
+        /// <summary>
+        /// 查询订单
+        /// </summary>
+        /// <param name="out_trade_no"></param>
+        /// <returns></returns>
+        public Data.OrderResponse OrderQuery(string out_trade_no)
+        {
+            if (string.IsNullOrWhiteSpace(out_trade_no)) throw new ArgumentNullException();
+
+            var request = new Data.OrderQueryRequest();
+            request.appid = Config.AppId;
+            request.mch_id = Config.MchId;
+            request.nonce_str = Guid.NewGuid().ToString("N");
+            request.out_trade_no = out_trade_no;
+
+            return OrderQuery(request);
+        }
     }
 }
