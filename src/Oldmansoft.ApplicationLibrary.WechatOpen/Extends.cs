@@ -20,7 +20,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         public static string GetSHA1Hash(this string source)
         {
             if (string.IsNullOrEmpty(source)) throw new ArgumentNullException();
-            var input = Encoding.Default.GetBytes(source);
+            var input = Encoding.UTF8.GetBytes(source);
             var hashed = System.Security.Cryptography.SHA1.Create().ComputeHash(input);
             return BitConverter.ToString(hashed).Replace("-", "");
         }
@@ -33,7 +33,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         public static string GetMd5Hash(this string source)
         {
             if (string.IsNullOrEmpty(source)) throw new ArgumentNullException();
-            var input = Encoding.Default.GetBytes(source);
+            var input = Encoding.UTF8.GetBytes(source);
             var hashed = new Util.Md5().ComputeHash(input);
             return BitConverter.ToString(hashed).Replace("-", "");
         }

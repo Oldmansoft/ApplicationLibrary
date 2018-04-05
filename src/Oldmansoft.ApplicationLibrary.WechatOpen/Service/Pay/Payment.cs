@@ -113,6 +113,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         public Data.OrderResponse ParseOrder(System.Xml.XmlDocument dom)
         {
             var result = Util.XmlSerializer.Deserialize<Data.OrderResponse>(dom);
+            if (result.return_code == "FAIL")
+            {
+                throw new WechatException(result.return_msg);
+            }
             if (Signature(dom) != result.sign) throw new SignatureException("签名不一致");
             return result;
         }
@@ -131,13 +135,18 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             string content;
             using (var client = new System.Net.Http.HttpClient())
             {
-                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/pay/orderquery"), new System.Net.Http.StringContent(xml)).Result;
+                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/pay/orderquery"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
                 content = response.Content.ReadAsStringAsync().Result;
             }
 
             var dom = new System.Xml.XmlDocument();
             dom.LoadXml(content);
-            return Util.XmlSerializer.Deserialize<Data.OrderResponse>(dom);
+            var result = Util.XmlSerializer.Deserialize<Data.OrderResponse>(dom);
+            if (result.return_code == "FAIL")
+            {
+                throw new WechatException(result.return_msg);
+            }
+            return result;
         }
 
         /// <summary>

@@ -41,7 +41,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             MchId = mchId;
             MchKey = mchKey;
         }
-        
+
         /// <summary>
         /// 签名
         /// </summary>
@@ -64,7 +64,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             foreach (var item in sorted)
             {
                 if (item.Key.ToLower() == "sign") continue;
-                if (item.Key.ToLower() == "signtype") continue;
+                if (item.Key.ToLower() == "paysign") continue;
                 if (string.IsNullOrWhiteSpace(item.Value)) continue;
 
                 content.Append(item.Key.Trim());
@@ -74,7 +74,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             }
             content.Append("key=");
             content.Append(MchKey);
-            return content.ToString().GetMd5Hash();
+            var text = content.ToString();
+            var result = text.GetMd5Hash();
+            WechatOpen.Util.Logger.Debug(text);
+            WechatOpen.Util.Logger.Debug(result);
+            return result;
         }
     }
 }

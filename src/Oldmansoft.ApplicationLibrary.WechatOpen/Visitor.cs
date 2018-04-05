@@ -45,7 +45,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             string content;
             using (var client = new HttpClient())
             {
-                var response = client.PostAsync(new Uri(url), new StringContent(value)).Result;
+                var response = client.PostAsync(new Uri(url), new StringContent(value, Encoding.UTF8)).Result;
                 content = response.Content.ReadAsStringAsync().Result;
             }
             if (content.IndexOf("\"errcode\"") == -1)
@@ -77,7 +77,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             string content;
             using (var client = new HttpClient())
             {
-                var response = client.PostAsync(new Uri(url), new StringContent(value)).Result;
+                var response = client.PostAsync(new Uri(url), new StringContent(value, Encoding.UTF8)).Result;
                 content = response.Content.ReadAsStringAsync().Result;
             }
             if (content.IndexOf("\"errcode\"") > -1)

@@ -39,17 +39,22 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         {
             Request.sign = Config.Signature(Request);
             var xml = Util.XmlSerializer.Serialize(Request).InnerXml;
-
+            WechatOpen.Util.Logger.Debug(xml);
             string content;
             using (var client = new System.Net.Http.HttpClient())
             {
-                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/pay/unifiedorder"), new System.Net.Http.StringContent(xml)).Result;
+                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/pay/unifiedorder"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
                 content = response.Content.ReadAsStringAsync().Result;
             }
-
+            WechatOpen.Util.Logger.Debug(content);
             var dom = new System.Xml.XmlDocument();
             dom.LoadXml(content);
-            return Util.XmlSerializer.Deserialize<Data.UnifiedorderResponse>(dom);
+            var result = Util.XmlSerializer.Deserialize<Data.UnifiedorderResponse>(dom);
+            if (result.return_code == "FAIL")
+            {
+                throw new WechatException(result.return_msg);
+            }
+            return result;
         }
     }
 }
