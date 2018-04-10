@@ -87,22 +87,30 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public string Signature(System.Xml.XmlDocument dom)
         {
-            var content = new StringBuilder();
+            var sorted = new SortedDictionary<string, string>();
             var root = dom.DocumentElement;
             for (var i = 0; i < root.ChildNodes.Count; i++)
             {
                 var node = root.ChildNodes[i];
                 if (node.Name.ToLower() == "sign") continue;
                 if (node.Name.ToLower() == "signtype") continue;
+                sorted.Add(node.Name, node.GetText());
+            }
 
-                content.Append(node.Name);
+            var content = new StringBuilder();
+            foreach (var item in sorted)
+            {
+                content.Append(item.Key);
                 content.Append("=");
-                content.Append(node.GetText());
+                content.Append(item.Value);
                 content.Append("&");
             }
             content.Append("key=");
             content.Append(Config.MchKey);
-            return content.ToString().GetMd5Hash();
+            var text = content.ToString();
+            var result = text.GetMd5Hash();
+            WechatOpen.Util.Logger.Debug(string.Format("{0}\r\nHash:{1}", text, result));
+            return result;
         }
         
         /// <summary>
