@@ -41,7 +41,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
                 Counter++;
             }
             var fileName = string.Format("{0:HHmmssffff}_{1}.file", DateTime.UtcNow, Counter);
-            var path = DateTime.UtcNow.ToString("yyyyMMdd");
+            var path = DateTime.UtcNow.ToString(@"yyyy\\MM\\dd");
             var dir = Path.Combine(BasePath, path);
             lock (FileLocker)
             {
