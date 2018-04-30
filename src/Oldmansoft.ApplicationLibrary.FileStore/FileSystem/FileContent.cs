@@ -12,38 +12,57 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
     /// </summary>
     public class FileContent : IFileContent
     {
-        private static object FileLocker = new object();
-        private static object Counter_Locker = new object();
-        private static ushort Counter;
+        /// <summary>
+        /// 计数锁
+        /// </summary>
+        private static readonly object Counter_Locker = new object();
 
-        private string BasePath;
+        /// <summary>
+        /// 计数器
+        /// </summary>
+        private static ushort Counter { get; set; }
 
-        private FileContent()
-        {
-        }
+        /// <summary>
+        /// 目录锁
+        /// </summary>
+        protected static readonly object DirectoryLocker = new object();
+
+        /// <summary>
+        /// 根路径
+        /// </summary>
+        protected string BasePath { get; private set; }
 
         /// <summary>
         /// 创建
         /// </summary>
-        /// <param name="basePath">根目录</param>
-        /// <returns></returns>
-        public static FileContent Create(string basePath)
+        /// <param name="basePath"></param>
+        public FileContent(string basePath)
         {
-            var domain = new FileContent();
-            domain.BasePath = basePath;
-            return domain;
+            BasePath = basePath;
         }
-
-        private string CreatePath()
+        
+        /// <summary>
+        /// 获取计数
+        /// </summary>
+        /// <returns></returns>
+        protected ushort GetCounter()
         {
             lock (Counter_Locker)
             {
-                Counter++;
+                return ++Counter;
             }
-            var fileName = string.Format("{0:HHmmssffff}_{1}.file", DateTime.UtcNow, Counter);
+        }
+
+        /// <summary>
+        /// 创建文件路径
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string CreatePath()
+        {
+            var fileName = string.Format("{0:HHmmssffff}_{1}.file", DateTime.Now, GetCounter());
             var path = DateTime.UtcNow.ToString(@"yyyy\\MM\\dd");
             var dir = Path.Combine(BasePath, path);
-            lock (FileLocker)
+            lock (DirectoryLocker)
             {
                 if (!Directory.Exists(dir))
                 {

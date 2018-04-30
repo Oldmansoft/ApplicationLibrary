@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileData.cs" />
+    <Compile Include="FileSystem\FileContentLimitCount.cs" />
     <Compile Include="IFileProvider.cs" />
     <Compile Include="IFileIndex.cs" />
     <Compile Include="FileSystem\FileContent.cs" />
