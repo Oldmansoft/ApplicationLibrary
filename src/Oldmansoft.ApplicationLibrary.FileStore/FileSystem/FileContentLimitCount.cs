@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
 {
-
     /// <summary>
     /// 文件内容
     /// 限制数量
@@ -61,7 +60,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
             short numberName;
             foreach (var item in Directory.GetDirectories(dateDir))
             {
-                if (short.TryParse(item, out numberName))
+                if (short.TryParse(Path.GetFileName(item), out numberName))
                 {
                     if (numberName > maxNumber) maxNumber = numberName;
                 }
