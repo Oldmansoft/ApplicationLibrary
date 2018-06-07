@@ -43,15 +43,15 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
         private string GetDir(bool inc)
         {
             var datePath = DateTime.Now.ToString(@"yyyy\\MM\\dd");
-            var dateDir = Path.Combine(BasePath, datePath);
-            if (!Directory.Exists(dateDir))
+            var fullPath = Path.Combine(BasePath, datePath);
+            if (!Directory.Exists(fullPath))
             {
-                Directory.CreateDirectory(dateDir);
+                Directory.CreateDirectory(fullPath);
             }
 
             short maxNumber = 1;
             short numberName;
-            foreach (var item in Directory.GetDirectories(dateDir))
+            foreach (var item in Directory.GetDirectories(fullPath))
             {
                 if (short.TryParse(Path.GetFileName(item), out numberName))
                 {
@@ -59,12 +59,13 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
                 }
             }
             if (inc) maxNumber++;
-            var result = Path.Combine(dateDir, maxNumber.ToString());
-            if (!Directory.Exists(result))
+            var fullPathAndSubnumber = Path.Combine(fullPath, maxNumber.ToString());
+            if (!Directory.Exists(fullPathAndSubnumber))
             {
-                Directory.CreateDirectory(result);
+                Directory.CreateDirectory(fullPathAndSubnumber);
             }
-            return result;
+
+            return Path.Combine(datePath, maxNumber.ToString());
         }
         
         /// <summary>
@@ -79,7 +80,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
                 if (CurrentDate != DateTime.Now.Date)
                 {
                     CurrentDir = GetDir(false);
-                    CurrentCount = Directory.GetFiles(CurrentDir).Length;
+                    CurrentCount = Directory.GetFiles(Path.Combine(BasePath, CurrentDir)).Length;
                     CurrentDate = DateTime.Now.Date;
                 }
 
