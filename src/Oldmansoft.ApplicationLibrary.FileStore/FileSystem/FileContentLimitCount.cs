@@ -23,6 +23,11 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
 
         private int LimitCount { get; set; }
 
+        static FileContentLimitCount()
+        {
+            CurrentDate = DateTime.Now.AddDays(-1).Date;
+        }
+
         /// <summary>
         /// 创建
         /// </summary>
@@ -33,18 +38,6 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
             : base(basePath)
         {
             LimitCount = limitCount;
-            if (CurrentDir == null)
-            {
-                lock (DirectoryLocker)
-                {
-                    if (CurrentDir == null)
-                    {
-                        CurrentDir = GetDir(false);
-                        CurrentCount = Directory.GetFiles(CurrentDir).Length;
-                        CurrentDate = DateTime.Now.Date;
-                    }
-                }
-            }
         }
 
         private string GetDir(bool inc)
