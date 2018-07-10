@@ -113,5 +113,26 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         {
             return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).AddSeconds(source);
         }
+
+        /// <summary>
+        /// 修正长度
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static string CutByUtf8(this string source, int max)
+        {
+            if (string.IsNullOrEmpty(source)) return string.Empty;
+            if (Encoding.UTF8.GetByteCount(source) <= max) return source;
+            var result = new StringBuilder();
+            var total = 0;
+            for (var i = 0; i < source.Length; i++)
+            {
+                total += Encoding.UTF8.GetByteCount(new char[] { source[i] });
+                if (total > max) break;
+                result.Append(source[i]);
+            }
+            return result.ToString();
+        }
     }
 }

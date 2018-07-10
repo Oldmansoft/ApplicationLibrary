@@ -144,7 +144,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
 
             total_fee = totalFee;
             out_trade_no = outTradeNo;
-            body = title;
+            body = title.CutByUtf8(105);
             notify_url = notifyUrl;
         }
     }
