@@ -100,9 +100,21 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
         /// <returns></returns>
         public XmlDocument Deal(XmlDocument input)
         {
+            InputHead head;
+            return Deal(input, out head);
+        }
+
+        /// <summary>
+        /// 处理 Xml 消息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public XmlDocument Deal(XmlDocument input, out InputHead head)
+        {
+            head = null;
             if (input == null) return null;
             if (input.DocumentElement == null) return null;
-            InputHead head;
             if (!InitInputHead(input.DocumentElement, out head)) return null;
 
             ParameterSupporter parameterSupporter;
