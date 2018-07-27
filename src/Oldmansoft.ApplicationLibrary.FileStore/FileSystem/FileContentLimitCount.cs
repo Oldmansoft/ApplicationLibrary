@@ -53,10 +53,8 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
             short numberName;
             foreach (var item in Directory.GetDirectories(fullPath))
             {
-                if (short.TryParse(Path.GetFileName(item), out numberName))
-                {
-                    if (numberName > maxNumber) maxNumber = numberName;
-                }
+                if (!short.TryParse(Path.GetFileName(item), out numberName)) continue;
+                if (numberName > maxNumber) maxNumber = numberName;
             }
             if (inc) maxNumber++;
             var fullPathAndSubnumber = Path.Combine(fullPath, maxNumber.ToString());
@@ -66,6 +64,19 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
             }
 
             return Path.Combine(datePath, maxNumber.ToString());
+        }
+
+        private int GetMaxFileName(string path)
+        {
+            int maxNumber = 0;
+            int numberName;
+            foreach (var item in Directory.GetFiles(path))
+            {
+                if (Path.GetExtension(item) != ".file") continue;
+                if (!int.TryParse(Path.GetFileNameWithoutExtension(item), out numberName)) continue;
+                if (numberName > maxNumber) maxNumber = numberName;
+            }
+            return maxNumber;
         }
         
         /// <summary>
@@ -80,7 +91,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
                 if (CurrentDate != DateTime.Now.Date)
                 {
                     CurrentDir = GetDir(false);
-                    CurrentCount = Directory.GetFiles(Path.Combine(BasePath, CurrentDir)).Length;
+                    CurrentCount = GetMaxFileName(Path.Combine(BasePath, CurrentDir));
                     CurrentDate = DateTime.Now.Date;
                 }
 
