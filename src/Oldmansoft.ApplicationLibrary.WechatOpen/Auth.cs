@@ -72,7 +72,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// </summary>
         /// <param name="openId"></param>
         /// <returns></returns>
-        public AuthUser FromCache(string openId)
+        public virtual AuthUser FromCache(string openId)
         {
             return AuthUser.CreateFromCache(this, UserTokenStore, openId);
         }
@@ -82,7 +82,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public AuthUser FromCode(string code)
+        public virtual AuthUser FromCode(string code)
         {
             return AuthUser.Create(this, UserTokenStore, code);
         }

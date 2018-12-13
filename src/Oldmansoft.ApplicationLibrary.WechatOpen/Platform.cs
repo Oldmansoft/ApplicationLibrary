@@ -60,7 +60,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// 获取 Token
         /// </summary>
         /// <returns></returns>
-        public AccessToken GetPlatformToken()
+        public virtual AccessToken GetPlatformToken()
         {
             var result = AccessTokenStore.Get(Config.AppId);
             if (result == null || result.IsExpired())
@@ -82,7 +82,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// 获取 Token
         /// </summary>
         /// <returns></returns>
-        public string GetPlatformTokenString()
+        public virtual string GetPlatformTokenString()
         {
             return GetPlatformToken().access_token;
         }

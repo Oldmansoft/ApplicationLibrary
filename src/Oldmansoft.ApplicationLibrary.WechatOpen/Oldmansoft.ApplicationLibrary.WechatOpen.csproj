@@ -132,6 +132,7 @@
     <Compile Include="Service\Pay\UnifiedorderJsapi.cs" />
     <Compile Include="Service\Pay\Util\XmlSerializer.cs" />
     <Compile Include="Util\ILoggerProvider.cs" />
+    <Compile Include="Util\Locker.cs" />
     <Compile Include="Util\Logger.cs" />
     <Compile Include="Util\LoggerProvider.cs" />
     <Compile Include="Util\Md5.cs" />

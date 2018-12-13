@@ -30,8 +30,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         private AuthUser(IAuth auth, IUserTokenStore store)
         {
             if (auth == null) throw new ArgumentNullException("auth");
+            if (store == null) throw new ArgumentNullException("store");
             Auth = auth;
-            UserTokenStore = new Provider.InProcess.UserTokenStore();
+            UserTokenStore = store;
         }
 
         internal static AuthUser Create(IAuth auth, IUserTokenStore store, string code)
@@ -54,7 +55,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// 获取用户 Token
         /// </summary>
         /// <returns></returns>
-        private UserToken GetUserToken()
+        protected virtual UserToken GetUserToken()
         {
             var token = UserTokenStore.Get(OpenId);
             if (token == null) throw new WechatException("请用户授权后再操作");
@@ -62,8 +63,14 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
 
             if (token.IsExpired())
             {
-                var access_token = Auth.RefreshUserToken(token.refresh_token);
-                token.SetAccessToken(access_token);
+                using (Util.Locker.Lock(OpenId))
+                {
+                    if (token.IsExpired())
+                    {
+                        var access_token = Auth.RefreshUserToken(token.refresh_token);
+                        token.SetAccessToken(access_token);
+                    }
+                }
             }
             return token;
         }

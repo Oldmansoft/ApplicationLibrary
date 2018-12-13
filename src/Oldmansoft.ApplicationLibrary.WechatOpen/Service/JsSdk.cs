@@ -49,7 +49,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
         /// 获取票据
         /// </summary>
         /// <returns></returns>
-        public Ticket GetTicket()
+        public virtual Ticket GetTicket()
         {
             var result = TicketStore.Get(Platform.Config.AppId);
             if (result == null || result.IsExpire())
@@ -71,7 +71,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
         /// 获取票据
         /// </summary>
         /// <returns></returns>
-        public string GetTicketString()
+        public virtual string GetTicketString()
         {
             return GetTicket().ticket;
         }
