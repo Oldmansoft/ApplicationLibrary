@@ -271,5 +271,119 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             request.notify_url = notify_url;
             return Refund(request, certificate);
         }
+
+        /// <summary>
+        /// 退款查询
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Data.RefundQueryResponse RefundQuery(Data.RefundQueryRequest request)
+        {
+            if (request == null) throw new ArgumentNullException("request");
+            request.sign = Config.Signature(request);
+            var xml = Util.XmlSerializer.Serialize(request).InnerXml;
+            string content;
+            using (var client = new System.Net.Http.HttpClient())
+            {
+                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/pay/refundquery"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
+                content = response.Content.ReadAsStringAsync().Result;
+            }
+
+            var dom = new System.Xml.XmlDocument();
+            dom.LoadXml(content);
+            var result = Util.XmlSerializer.Deserialize<Data.RefundQueryResponse>(dom);
+            if (result.return_code == "FAIL")
+            {
+                throw new WechatException(result.return_msg);
+            }
+            if (result.result_code == "FAIL")
+            {
+                throw new WechatBusinessException(result.err_code, result.err_code_des);
+            }
+            result.items = new Data.RefundQueryResponseItem[result.refund_count];
+            for (var i = 0; i < result.items.Length; i++)
+            {
+                var item = new Data.RefundQueryResponseItem();
+                foreach (var property in typeof(Data.RefundQueryResponseItem).GetProperties())
+                {
+                    var value = dom.DocumentElement.GetText(string.Format("{0}_{1}", property.Name, i));
+                    property.SetAutoValue(item, value);
+                }
+                result.items[i] = item;
+                if (!item.coupon_refund_count.HasValue || item.coupon_refund_count.Value == 0) continue;
+                item.coupons = new Data.RefundQueryResponseItemCoupon[item.coupon_refund_count.Value];
+                for (var j = 0; j < item.coupons.Length; j++)
+                {
+                    var coupon = new Data.RefundQueryResponseItemCoupon();
+                    foreach (var property in typeof(Data.RefundQueryResponseItemCoupon).GetProperties())
+                    {
+                        var value = dom.DocumentElement.GetText(string.Format("{0}_{1}_{2}", property.Name, i, j));
+                        property.SetAutoValue(coupon, value);
+                    }
+                    item.coupons[j] = coupon;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 退款查询
+        /// </summary>
+        /// <param name="value">微信生成的退款单号</param>
+        /// <returns></returns>
+        public Data.RefundQueryResponse RefundQueryByRefundId(string value)
+        {
+            var request = new Data.RefundQueryRequest();
+            request.appid = Config.AppId;
+            request.mch_id = Config.MchId;
+            request.nonce_str = Guid.NewGuid().ToString("N");
+            request.refund_id = value;
+            return RefundQuery(request);
+        }
+
+        /// <summary>
+        /// 退款查询
+        /// </summary>
+        /// <param name="value">商户系统内部的退款单号</param>
+        /// <returns></returns>
+        public Data.RefundQueryResponse out_refund_no(string value)
+        {
+            var request = new Data.RefundQueryRequest();
+            request.appid = Config.AppId;
+            request.mch_id = Config.MchId;
+            request.nonce_str = Guid.NewGuid().ToString("N");
+            request.out_refund_no = value;
+            return RefundQuery(request);
+        }
+
+        /// <summary>
+        /// 退款查询
+        /// </summary>
+        /// <param name="value">商户系统内部订单号</param>
+        /// <returns></returns>
+        public Data.RefundQueryResponse RefundQueryByOutTradeNo(string value)
+        {
+            var request = new Data.RefundQueryRequest();
+            request.appid = Config.AppId;
+            request.mch_id = Config.MchId;
+            request.nonce_str = Guid.NewGuid().ToString("N");
+            request.out_trade_no = value;
+            return RefundQuery(request);
+        }
+
+        /// <summary>
+        /// 退款查询
+        /// </summary>
+        /// <param name="value">微信订单号</param>
+        /// <returns></returns>
+        public Data.RefundQueryResponse RefundQueryByTransactionId(string value)
+        {
+            var request = new Data.RefundQueryRequest();
+            request.appid = Config.AppId;
+            request.mch_id = Config.MchId;
+            request.nonce_str = Guid.NewGuid().ToString("N");
+            request.transaction_id = value;
+            return RefundQuery(request);
+        }
     }
 }

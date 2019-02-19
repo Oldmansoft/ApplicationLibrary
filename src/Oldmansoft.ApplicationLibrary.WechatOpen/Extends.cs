@@ -134,5 +134,24 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             }
             return result.ToString();
         }
+
+        /// <summary>
+        /// 自动设值
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="obj"></param>
+        /// <param name="value"></param>
+        public static void SetAutoValue(this System.Reflection.PropertyInfo source, object obj, string value)
+        {
+            if (string.IsNullOrEmpty(value)) return;
+            if (source.PropertyType == typeof(string))
+            {
+                source.SetValue(obj, value);
+            }
+            else
+            {
+                source.SetValue(obj, Convert.ChangeType(value, source.PropertyType));
+            }
+        }
     }
 }

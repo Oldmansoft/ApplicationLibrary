@@ -117,6 +117,8 @@
     <Compile Include="Service\Pay\Config.cs" />
     <Compile Include="Service\Pay\Data\AppOrderRequest.cs" />
     <Compile Include="Service\Pay\Data\JsapiOrderRequest.cs" />
+    <Compile Include="Service\Pay\Data\RefundQueryRequest.cs" />
+    <Compile Include="Service\Pay\Data\RefundQueryResponse.cs" />
     <Compile Include="Service\Pay\Data\RefundRequest.cs" />
     <Compile Include="Service\Pay\Data\OrderQueryRequest.cs" />
     <Compile Include="Service\Pay\Data\OrderResponse.cs" />

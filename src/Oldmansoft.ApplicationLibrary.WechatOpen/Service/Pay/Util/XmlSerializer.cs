@@ -45,15 +45,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Util
             {
                 if (!property.CanWrite) continue;
                 var value = dom.DocumentElement.GetText(property.Name);
-                if (string.IsNullOrEmpty(value)) continue;
-                if (property.PropertyType == typeof(string))
-                {
-                    property.SetValue(result, value);
-                }
-                else
-                {
-                    property.SetValue(result, Convert.ChangeType(value, property.PropertyType));
-                }
+                property.SetAutoValue(result, value);
             }
             return result;
         }
