@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 退款查询返回
     /// </summary>
-    public class RefundQueryResponse : Reponse
+    public class RefundQueryResponse : Response
     {
         /// <summary>
         /// 微信分配的公众账号ID

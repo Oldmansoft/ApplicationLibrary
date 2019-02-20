@@ -116,6 +116,9 @@
     <Compile Include="AuthUser.cs" />
     <Compile Include="Service\Pay\Config.cs" />
     <Compile Include="Service\Pay\Data\AppOrderRequest.cs" />
+    <Compile Include="Service\Pay\Data\BankCode.cs" />
+    <Compile Include="Service\Pay\Data\GetPublicKeyRequest.cs" />
+    <Compile Include="Service\Pay\Data\GetPublicKeyResponse.cs" />
     <Compile Include="Service\Pay\Data\JsapiOrderRequest.cs" />
     <Compile Include="Service\Pay\Data\RefundQueryRequest.cs" />
     <Compile Include="Service\Pay\Data\RefundQueryResponse.cs" />
@@ -123,7 +126,9 @@
     <Compile Include="Service\Pay\Data\OrderQueryRequest.cs" />
     <Compile Include="Service\Pay\Data\OrderResponse.cs" />
     <Compile Include="Service\Pay\Data\RefundResponse.cs" />
-    <Compile Include="Service\Pay\Data\Reponse.cs" />
+    <Compile Include="Service\Pay\Data\Response.cs" />
+    <Compile Include="Service\Pay\Data\TransferToBankRequest.cs" />
+    <Compile Include="Service\Pay\Data\TransferToBankResponse.cs" />
     <Compile Include="Service\Pay\Data\TransferToWechatRequest.cs" />
     <Compile Include="Service\Pay\Data\TransferToWechatResponse.cs" />
     <Compile Include="Service\Pay\Data\UnifiedorderResponse.cs" />

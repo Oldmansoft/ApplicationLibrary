@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 下单返回
     /// </summary>
-    public class UnifiedorderResponse : Reponse
+    public class UnifiedorderResponse : Response
     {
         /// <summary>
         /// 公众账号ID

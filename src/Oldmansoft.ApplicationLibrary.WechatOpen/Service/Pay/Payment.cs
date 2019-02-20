@@ -475,5 +475,117 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             request.spbill_create_ip = clientIp;
             return TransferToWechat(request, certificate);
         }
+        
+        /// <summary>
+        /// 获取公钥
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
+        public Data.GetPublicKeyResponse GetPublicKey(Data.GetPublicKeyRequest request, X509Certificate2 certificate)
+        {
+            if (request == null) throw new ArgumentNullException("request");
+            if (certificate == null) throw new ArgumentNullException("certificate");
+
+            request.sign = Config.Signature(request);
+            var xml = Util.XmlSerializer.Serialize(request).InnerXml;
+            var handler = new System.Net.Http.WebRequestHandler();
+            handler.ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual;
+            handler.UseDefaultCredentials = false;
+            handler.ClientCertificates.Add(certificate);
+            string content;
+            using (var client = new System.Net.Http.HttpClient(handler))
+            {
+                var response = client.PostAsync(new Uri("https://fraud.mch.weixin.qq.com/risk/getpublickey"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
+                content = response.Content.ReadAsStringAsync().Result;
+            }
+
+            var dom = new System.Xml.XmlDocument();
+            dom.LoadXml(content);
+            var result = Util.XmlSerializer.Deserialize<Data.GetPublicKeyResponse>(dom);
+            if (result.return_code == "FAIL")
+            {
+                throw new WechatException(result.return_msg);
+            }
+            if (result.result_code == "FAIL")
+            {
+                throw new WechatBusinessException(result.err_code, result.err_code_des);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 获取公钥
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
+        public Data.GetPublicKeyResponse GetPublicKey(X509Certificate2 certificate)
+        {
+            var request = new Data.GetPublicKeyRequest();
+            request.mch_id = Config.MchId;
+            return GetPublicKey(request, certificate);
+        }
+
+        /// <summary>
+        /// 企业付款到银行
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
+        public Data.TransferToBankResponse TransferToBank(Data.TransferToBankRequest request, X509Certificate2 certificate)
+        {
+            if (request == null) throw new ArgumentNullException("request");
+            if (certificate == null) throw new ArgumentNullException("certificate");
+
+            request.sign = Config.Signature(request);
+            var xml = Util.XmlSerializer.Serialize(request).InnerXml;
+            var handler = new System.Net.Http.WebRequestHandler();
+            handler.ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual;
+            handler.UseDefaultCredentials = false;
+            handler.ClientCertificates.Add(certificate);
+            string content;
+            using (var client = new System.Net.Http.HttpClient(handler))
+            {
+                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
+                content = response.Content.ReadAsStringAsync().Result;
+            }
+
+            var dom = new System.Xml.XmlDocument();
+            dom.LoadXml(content);
+            var result = Util.XmlSerializer.Deserialize<Data.TransferToBankResponse>(dom);
+            if (result.return_code == "FAIL")
+            {
+                throw new WechatException(result.return_msg);
+            }
+            if (result.result_code == "FAIL")
+            {
+                throw new WechatBusinessException(result.err_code, result.err_code_des);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 企业付款到银行
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="tradeNo"></param>
+        /// <param name="encBankNo"></param>
+        /// <param name="encTrueName"></param>
+        /// <param name="bankCode"></param>
+        /// <param name="amount"></param>
+        /// <param name="desc"></param>
+        /// <returns></returns>
+        public Data.TransferToBankResponse TransferToBank(X509Certificate2 certificate, string tradeNo, string encBankNo, string encTrueName, string bankCode, int amount, string desc)
+        {
+            var request = new Data.TransferToBankRequest();
+            request.mch_id = Config.MchId;
+            request.partner_trade_no = tradeNo;
+            request.enc_bank_no = encBankNo;
+            request.enc_true_name = encTrueName;
+            request.bank_code = bankCode;
+            request.amount = amount;
+            request.desc = desc;
+            return TransferToBank(request, certificate);
+        }
     }
 }

@@ -153,5 +153,19 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
                 source.SetValue(obj, Convert.ChangeType(value, source.PropertyType));
             }
         }
+
+        /// <summary>
+        /// 加密
+        /// 企业付款到银行卡的公钥加密方法
+        /// 公钥可以从 GetPublicKey 获取后用其它工具转换为 xml 导入到 RSACryptoServiceProvider
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string EncryptToBase64String(this System.Security.Cryptography.RSACryptoServiceProvider source, string input)
+        {
+            var result = source.Encrypt(Encoding.UTF8.GetBytes(input), true);
+            return Convert.ToBase64String(result);
+        }
     }
 }

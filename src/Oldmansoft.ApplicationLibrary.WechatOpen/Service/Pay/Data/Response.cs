@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 返回结果
     /// </summary>
-    public abstract class Reponse
+    public abstract class Response
     {
         /// <summary>
         /// SUCCESS/FAIL 
