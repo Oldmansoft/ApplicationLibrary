@@ -9,26 +9,8 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 订单返回
     /// </summary>
-    public class OrderResponse
-    {
-        /// <summary>
-        /// SUCCESS/FAIL 
-        /// 此字段是通信标识，非交易标识，交易是否成功需要查看trade_state来判断
-        /// </summary>
-        public string return_code { get; set; }
-
-        /// <summary>
-        /// 业务结果
-        /// </summary>
-        public string result_code { get; set; }
-
-        /// <summary>
-        /// 返回信息，如非空，为错误原因 
-        /// 签名失败
-        /// 参数格式校验错误
-        /// </summary>
-        public string return_msg { get; set; }
-
+    public class OrderResponse : Reponse
+    {        
         /// <summary>
         /// 微信分配的公众账号ID 
         /// </summary>
@@ -38,27 +20,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
         /// 微信支付分配的商户号 
         /// </summary>
         public string mch_id { get; set; }
-
-        /// <summary>
-        /// 随机字符串，不长于32位。推荐随机数生成算法
-        /// </summary>
-        public string nonce_str { get; set; }
-
-        /// <summary>
-        /// 签名，详见签名生成算法
-        /// </summary>
-        public string sign { get; set; }
-
-        /// <summary>
-        /// 错误码
-        /// </summary>
-        public string err_code { get; set; }
-
-        /// <summary>
-        /// 结果信息描述 
-        /// </summary>
-        public string err_code_des { get; set; }
-
+        
         /// <summary>
         /// 微信支付分配的终端设备号， 
         /// </summary>

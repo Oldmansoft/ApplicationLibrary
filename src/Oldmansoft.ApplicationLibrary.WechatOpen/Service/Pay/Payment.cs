@@ -385,5 +385,95 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             request.transaction_id = value;
             return RefundQuery(request);
         }
+
+        /// <summary>
+        /// 企业付款到微信
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
+        public Data.TransferToWechatResponse TransferToWechat(Data.TransferToWechatRequest request, X509Certificate2 certificate)
+        {
+            if (request == null) throw new ArgumentNullException("request");
+            if (certificate == null) throw new ArgumentNullException("certificate");
+
+            request.sign = Config.Signature(request);
+            var xml = Util.XmlSerializer.Serialize(request).InnerXml;
+            var handler = new System.Net.Http.WebRequestHandler();
+            handler.ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual;
+            handler.UseDefaultCredentials = false;
+            handler.ClientCertificates.Add(certificate);
+            string content;
+            using (var client = new System.Net.Http.HttpClient(handler))
+            {
+                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
+                content = response.Content.ReadAsStringAsync().Result;
+            }
+
+            var dom = new System.Xml.XmlDocument();
+            dom.LoadXml(content);
+            var result = Util.XmlSerializer.Deserialize<Data.TransferToWechatResponse>(dom);
+            if (result.return_code == "FAIL")
+            {
+                throw new WechatException(result.return_msg);
+            }
+            if (result.result_code == "FAIL")
+            {
+                throw new WechatBusinessException(result.err_code, result.err_code_des);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 企业付款到微信
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="partnerTradeNo">商户订单号</param>
+        /// <param name="openId">用户openid</param>
+        /// <param name="amount">企业付款金额，单位为分</param>
+        /// <param name="desc">企业付款备注</param>
+        /// <param name="clientIp">Ip地址</param>
+        /// <returns></returns>
+        public Data.TransferToWechatResponse TransferToWechat(X509Certificate2 certificate, string partnerTradeNo, string openId, int amount, string desc, string clientIp)
+        {
+            var request = new Data.TransferToWechatRequest();
+            request.mch_appid = Config.AppId;
+            request.mchid = Config.MchId;
+            request.nonce_str = Guid.NewGuid().ToString("N");
+            request.partner_trade_no = partnerTradeNo;
+            request.openid = openId;
+            request.check_name = "NO_CHECK";
+            request.amount = amount;
+            request.desc = desc;
+            request.spbill_create_ip = clientIp;
+            return TransferToWechat(request, certificate);
+        }
+
+        /// <summary>
+        /// 企业付款到微信
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="partnerTradeNo">商户订单号</param>
+        /// <param name="openId">用户openid</param>
+        /// <param name="userName">收款用户姓名</param>
+        /// <param name="amount">企业付款金额，单位为分</param>
+        /// <param name="desc">企业付款备注</param>
+        /// <param name="clientIp">Ip地址</param>
+        /// <returns></returns>
+        public Data.TransferToWechatResponse TransferToWechat(X509Certificate2 certificate, string partnerTradeNo, string openId, string userName, int amount, string desc, string clientIp)
+        {
+            var request = new Data.TransferToWechatRequest();
+            request.mch_appid = Config.AppId;
+            request.mchid = Config.MchId;
+            request.nonce_str = Guid.NewGuid().ToString("N");
+            request.partner_trade_no = partnerTradeNo;
+            request.openid = openId;
+            request.check_name = "FORCE_CHECK";
+            request.re_user_name = userName;
+            request.amount = amount;
+            request.desc = desc;
+            request.spbill_create_ip = clientIp;
+            return TransferToWechat(request, certificate);
+        }
     }
 }

@@ -9,24 +9,8 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 下单返回
     /// </summary>
-    public class UnifiedorderResponse
+    public class UnifiedorderResponse : Reponse
     {
-        /// <summary>
-        /// 业务结果
-        /// SUCCESS/FAIL
-        /// </summary>
-        public string result_code { get; set; }
-
-        /// <summary>
-        /// 返回结果
-        /// </summary>
-        public string return_code { get; set; }
-
-        /// <summary>
-        /// 返回信息
-        /// </summary>
-        public string return_msg { get; set; }
-
         /// <summary>
         /// 公众账号ID
         /// 调用接口提交的公众账号ID
@@ -44,30 +28,6 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
         /// 调用接口提交的终端设备号
         /// </summary>
         public string device_info { get; set; }
-
-        /// <summary>
-        /// 随机字符串
-        /// 微信返回的随机字符串
-        /// </summary>
-        public string nonce_str { get; set; }
-
-        /// <summary>
-        /// 签名
-        /// 微信返回的签名，详见签名算法
-        /// </summary>
-        public string sign { get; set; }
-
-        /// <summary>
-        /// 错误代码，非必需
-        /// 详细参见第6节错误列表
-        /// </summary>
-        public string err_code { get; set; }
-
-        /// <summary>
-        /// 错误代码描述，非必需
-        /// 错误返回的信息描述
-        /// </summary>
-        public string err_code_des { get; set; }
 
         /// <summary>
         /// 交易类型

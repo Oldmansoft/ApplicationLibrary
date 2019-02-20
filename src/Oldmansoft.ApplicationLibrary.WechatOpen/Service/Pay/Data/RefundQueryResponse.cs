@@ -9,39 +9,8 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 退款查询返回
     /// </summary>
-    public class RefundQueryResponse
+    public class RefundQueryResponse : Reponse
     {
-        /// <summary>
-        /// SUCCESS/FAIL 
-        /// 此字段是通信标识，非交易标识
-        /// </summary>
-        public string return_code { get; set; }
-
-        /// <summary>
-        /// 返回信息，如非空，为错误原因 
-        /// 签名失败
-        /// 参数格式校验错误
-        /// </summary>
-        public string return_msg { get; set; }
-
-        /// <summary>
-        /// 业务结果
-        /// SUCCESS/FAIL
-        /// SUCCESS退款申请接收成功，结果通过退款查询接口查询
-        /// FAIL 提交业务失败
-        /// </summary>
-        public string result_code { get; set; }
-
-        /// <summary>
-        /// 错误代码
-        /// </summary>
-        public string err_code { get; set; }
-
-        /// <summary>
-        /// 错误代码描述
-        /// </summary>
-        public string err_code_des { get; set; }
-
         /// <summary>
         /// 微信分配的公众账号ID
         /// </summary>
@@ -51,17 +20,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
         /// 微信支付分配的商户号
         /// </summary>
         public string mch_id { get; set; }
-
-        /// <summary>
-        /// 随机字符串
-        /// </summary>
-        public string nonce_str { get; set; }
-
-        /// <summary>
-        /// 签名
-        /// </summary>
-        public string sign { get; set; }
-
+        
         /// <summary>
         /// 订单总退款次数
         /// 订单总共已发生的部分退款次数，当请求参数传入offset后有返回
