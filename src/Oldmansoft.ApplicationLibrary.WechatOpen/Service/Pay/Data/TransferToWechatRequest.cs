@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 企业付款到零钱请求
     /// </summary>
-    public class TransferToWechatRequest
+    public class TransferToWechatRequest : Request
     {
         /// <summary>
         /// 商户账号appid
@@ -26,17 +26,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
         /// 设备号
         /// </summary>
         public string device_info { get; set; }
-
-        /// <summary>
-        /// 随机字符串
-        /// </summary>
-        public string nonce_str { get; set; }
-
-        /// <summary>
-        /// 签名
-        /// </summary>
-        public string sign { get; set; }
-
+        
         /// <summary>
         /// 商户订单号
         /// 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有其他字符)

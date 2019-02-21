@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 申请退款请求内容
     /// </summary>
-    public class RefundRequest
+    public class RefundRequest : Request
     {
         /// <summary>
         /// 微信分配的公众账号ID（企业号corpid即为此appId）
@@ -20,18 +20,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
         /// 微信支付分配的商户号 
         /// </summary>
         public string mch_id { get; set; }
-
-        /// <summary>
-        /// 随机字符串，不长于32位。推荐随机数生成算法
-        /// </summary>
-        public string nonce_str { get; set; }
-
-        /// <summary>
-        /// 签名，（根据key 库内部生成）
-        /// 详见签名生成算法
-        /// </summary>
-        public string sign { get; set; }
-
+        
         /// <summary>
         /// 微信的订单号，优先使用,当没提供out_trade_no时需要传这个。 
         /// </summary>

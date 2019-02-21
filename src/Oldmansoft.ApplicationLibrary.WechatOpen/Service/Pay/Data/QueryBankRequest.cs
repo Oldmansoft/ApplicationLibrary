@@ -9,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
     /// <summary>
     /// 查询企业付款银行卡请求
     /// </summary>
-    public class QueryBankRequest
+    public class QueryBankRequest : Request
     {
         /// <summary>
         /// 商户号
@@ -20,23 +20,5 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay.Data
         /// 商户企业付款单号
         /// </summary>
         public string partner_trade_no { get; set; }
-
-        /// <summary>
-        /// 随机字符串
-        /// </summary>
-        public string nonce_str { get; set; }
-
-        /// <summary>
-        /// 签名
-        /// </summary>
-        public string sign { get; set; }
-
-        /// <summary>
-        /// 创建
-        /// </summary>
-        public QueryBankRequest()
-        {
-            nonce_str = Guid.NewGuid().ToString("N");
-        }
     }
 }
