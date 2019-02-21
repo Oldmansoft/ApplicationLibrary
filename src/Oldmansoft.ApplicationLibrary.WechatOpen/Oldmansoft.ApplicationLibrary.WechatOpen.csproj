@@ -119,7 +119,11 @@
     <Compile Include="Service\Pay\Data\BankCode.cs" />
     <Compile Include="Service\Pay\Data\GetPublicKeyRequest.cs" />
     <Compile Include="Service\Pay\Data\GetPublicKeyResponse.cs" />
+    <Compile Include="Service\Pay\Data\GetTransferInfoResponse.cs" />
+    <Compile Include="Service\Pay\Data\GetTransferInfoRequest.cs" />
     <Compile Include="Service\Pay\Data\JsapiOrderRequest.cs" />
+    <Compile Include="Service\Pay\Data\QueryBankRequest.cs" />
+    <Compile Include="Service\Pay\Data\QueryBankResponse.cs" />
     <Compile Include="Service\Pay\Data\RefundQueryRequest.cs" />
     <Compile Include="Service\Pay\Data\RefundQueryResponse.cs" />
     <Compile Include="Service\Pay\Data\RefundRequest.cs" />

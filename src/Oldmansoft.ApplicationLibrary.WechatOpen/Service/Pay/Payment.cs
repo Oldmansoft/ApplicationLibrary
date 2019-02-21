@@ -475,7 +475,60 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             request.spbill_create_ip = clientIp;
             return TransferToWechat(request, certificate);
         }
-        
+
+        /// <summary>
+        /// 查询企业付款
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
+        public Data.GetTransferInfoResponse GetTransferInfo(Data.GetTransferInfoRequest request, X509Certificate2 certificate)
+        {
+            if (request == null) throw new ArgumentNullException("request");
+            if (certificate == null) throw new ArgumentNullException("certificate");
+
+            request.sign = Config.Signature(request);
+            var xml = Util.XmlSerializer.Serialize(request).InnerXml;
+            var handler = new System.Net.Http.WebRequestHandler();
+            handler.ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual;
+            handler.UseDefaultCredentials = false;
+            handler.ClientCertificates.Add(certificate);
+            string content;
+            using (var client = new System.Net.Http.HttpClient(handler))
+            {
+                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
+                content = response.Content.ReadAsStringAsync().Result;
+            }
+
+            var dom = new System.Xml.XmlDocument();
+            dom.LoadXml(content);
+            var result = Util.XmlSerializer.Deserialize<Data.GetTransferInfoResponse>(dom);
+            if (result.return_code == "FAIL")
+            {
+                throw new WechatException(result.return_msg);
+            }
+            if (result.result_code == "FAIL")
+            {
+                throw new WechatBusinessException(result.err_code, result.err_code_des);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 查询企业付款
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="partner_trade_no"></param>
+        /// <returns></returns>
+        public Data.GetTransferInfoResponse GetTransferInfo(X509Certificate2 certificate, string partner_trade_no)
+        {
+            var request = new Data.GetTransferInfoRequest();
+            request.appid = Config.AppId;
+            request.mch_id = Config.MchId;
+            request.partner_trade_no = partner_trade_no;
+            return GetTransferInfo(request, certificate);
+        }
+
         /// <summary>
         /// 获取公钥
         /// </summary>
@@ -586,6 +639,57 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             request.amount = amount;
             request.desc = desc;
             return TransferToBank(request, certificate);
+        }
+
+        /// <summary>
+        /// 查询企业付款银行卡
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
+        public Data.QueryBankResponse QueryBank(Data.QueryBankRequest request, X509Certificate2 certificate)
+        {
+            if (request == null) throw new ArgumentNullException("request");
+            if (certificate == null) throw new ArgumentNullException("certificate");
+
+            request.sign = Config.Signature(request);
+            var xml = Util.XmlSerializer.Serialize(request).InnerXml;
+            var handler = new System.Net.Http.WebRequestHandler();
+            handler.ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual;
+            handler.UseDefaultCredentials = false;
+            handler.ClientCertificates.Add(certificate);
+            string content;
+            using (var client = new System.Net.Http.HttpClient(handler))
+            {
+                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/mmpaysptrans/query_bank"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
+                content = response.Content.ReadAsStringAsync().Result;
+            }
+
+            var dom = new System.Xml.XmlDocument();
+            dom.LoadXml(content);
+            var result = Util.XmlSerializer.Deserialize<Data.QueryBankResponse>(dom);
+            if (result.return_code == "FAIL")
+            {
+                throw new WechatException(result.return_msg);
+            }
+            if (result.result_code == "FAIL")
+            {
+                throw new WechatBusinessException(result.err_code, result.err_code_des);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 查询企业付款银行卡
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="partner_trade_no"></param>
+        /// <returns></returns>
+        public Data.QueryBankResponse QueryBank(X509Certificate2 certificate, string partner_trade_no)
+        {
+            var request = new Data.QueryBankRequest();
+            request.partner_trade_no = partner_trade_no;
+            return QueryBank(request, certificate);
         }
     }
 }
