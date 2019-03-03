@@ -22,7 +22,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// <param name="code"></param>
         /// <param name="message"></param>
         public WechatBusinessException(string code, string message)
-            :base(string.Format("{0}: {1}", code, message))
+            : base(message)
         {
             Code = code;
         }
