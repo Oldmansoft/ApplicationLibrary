@@ -82,7 +82,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter
                     templateSendJobFinish.Status = element.GetText("Status");
                     return Result(MessageType.TemplateSendJobFinish, templateSendJobFinish);
                 default:
-                    throw new NotImplementedException(string.Format("不支持微信事件类型 {0}", e));
+                    return Result(MessageType.UnknowEvent, element);
             }
         }
     }

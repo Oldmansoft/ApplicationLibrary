@@ -52,6 +52,12 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
         Event,
 
         /* 下面扩展类型，为内部使用 */
+
+        /// <summary>
+        /// 未知事件
+        /// </summary>
+        UnknowEvent,
+
         /// <summary>
         /// 订阅事件
         /// </summary>
