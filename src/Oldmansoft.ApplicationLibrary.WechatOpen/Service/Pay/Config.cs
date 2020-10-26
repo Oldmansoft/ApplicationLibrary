@@ -76,7 +76,6 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             content.Append(MchKey);
             var text = content.ToString();
             var result = text.GetMd5Hash();
-            WechatOpen.Util.Logger.Debug(string.Format("{0}\r\nHash:{1}", text, result));
             return result;
         }
     }
