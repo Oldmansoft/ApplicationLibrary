@@ -387,5 +387,49 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             request.transaction_id = value;
             return RefundQuery(request);
         }
+
+        /// <summary>
+        /// 下载交易账单
+        /// </summary>
+        public string DownloadBill(Data.DownloadBillRequest request)
+        {
+            if (request == null) throw new ArgumentNullException();
+            request.sign = Config.Signature(request);
+            var xml = Util.XmlSerializer.Serialize(request).InnerXml;
+
+            string content;
+            using (var client = new System.Net.Http.HttpClient())
+            {
+                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/pay/downloadbill"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
+                content = response.Content.ReadAsStringAsync().Result;
+            }
+            if (string.IsNullOrWhiteSpace(content) || content.Substring(0, 5) == "<xml>")
+            {
+                var dom = new System.Xml.XmlDocument();
+                dom.LoadXml(content);
+                var result = Util.XmlSerializer.Deserialize<Data.DownloadBillFailResponse>(dom);
+                if (result.return_code == "FAIL")
+                {
+                    throw new WechatException(result.return_msg);
+                }
+            }
+            return content;
+        }
+
+        /// <summary>
+        /// 下载交易账单
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public string DownloadBill(DateTime date)
+        {
+            var request = new Data.DownloadBillRequest();
+            request.appid = Config.AppId;
+            request.mch_id = Config.MchId;
+            request.nonce_str = Guid.NewGuid().ToString("N");
+            request.bill_type = "ALL";
+            request.bill_date = date.ToString("yyyyMMdd");
+            return DownloadBill(request);
+        }
     }
 }

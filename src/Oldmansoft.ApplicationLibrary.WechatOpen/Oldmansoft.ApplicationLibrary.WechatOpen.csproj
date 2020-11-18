@@ -118,6 +118,8 @@
     <Compile Include="Service\Pay\Config.cs" />
     <Compile Include="Service\Pay\Data\AppOrderRequest.cs" />
     <Compile Include="Service\Pay\BankCode.cs" />
+    <Compile Include="Service\Pay\Data\DownloadBillFailResponse.cs" />
+    <Compile Include="Service\Pay\Data\DownloadBillRequest.cs" />
     <Compile Include="Service\Pay\Data\GetPublicKeyRequest.cs" />
     <Compile Include="Service\Pay\Data\GetPublicKeyResponse.cs" />
     <Compile Include="Service\Pay\Data\GetTransferInfoResponse.cs" />
