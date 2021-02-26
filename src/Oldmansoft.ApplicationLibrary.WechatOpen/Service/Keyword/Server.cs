@@ -1,13 +1,7 @@
-﻿using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Keyword;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data;
+﻿using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data;
+using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
 using System.Reflection;
 using System.Xml;
 

@@ -1,28 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Oldmansoft.ApplicationLibrary.FileStore.Mongo.Infrastructure;
 
 namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo.Repositories
 {
-    class RepositoryFactory
+    class RepositoryFactory : ClassicDomain.RepositoryFactory
     {
-        private ClassicDomain.UnitOfWork Uow { get; set; }
-
-        public RepositoryFactory()
+        static RepositoryFactory()
         {
-            Uow = new ClassicDomain.UnitOfWork();
-        }
-
-        public ClassicDomain.IUnitOfWork GetUnitOfWork()
-        {
-            return Uow;
-        }
-
-        public FileIndexRepository CreateFileIndexRepository()
-        {
-            return new FileIndexRepository(Uow);
+            Add<IFileIndexRepository, FileIndexRepository>();
         }
     }
 }

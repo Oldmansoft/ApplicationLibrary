@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 {
@@ -28,8 +26,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <param name="config"></param>
         public Payment(IConfig config)
         {
-            if (config == null) throw new ArgumentNullException();
-            Config = config;
+            Config = config ?? throw new ArgumentNullException();
         }
 
         /// <summary>
@@ -45,9 +42,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         {
             if (string.IsNullOrEmpty(openId)) throw new ArgumentNullException("openId");
 
-            var result = new Data.UnifiedorderRequest(Config.AppId, Config.MchId, outTradeNo, title, totalFee, notifyUrl);
-            result.trade_type = "JSAPI";
-            result.openid = openId;
+            var result = new Data.UnifiedorderRequest(Config.AppId, Config.MchId, outTradeNo, title, totalFee, notifyUrl)
+            {
+                trade_type = "JSAPI",
+                openid = openId
+            };
             return new UnifiedorderJsapi(Config, result);
         }
 
@@ -61,8 +60,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public UnifiedorderApp CreateUnifiedorderApp(string outTradeNo, string title, int totalFee, string notifyUrl)
         {
-            var result = new Data.UnifiedorderRequest(Config.AppId, Config.MchId, outTradeNo, title, totalFee, notifyUrl);
-            result.trade_type = "APP";
+            var result = new Data.UnifiedorderRequest(Config.AppId, Config.MchId, outTradeNo, title, totalFee, notifyUrl)
+            {
+                trade_type = "APP"
+            };
             return new UnifiedorderApp(Config, result);
         }
 
@@ -76,8 +77,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public UnifiedorderNavite CreateUnifiedorderNative(string outTradeNo, string title, int totalFee, string notifyUrl)
         {
-            var result = new Data.UnifiedorderRequest(Config.AppId, Config.MchId, outTradeNo, title, totalFee, notifyUrl);
-            result.trade_type = "NATIVE";
+            var result = new Data.UnifiedorderRequest(Config.AppId, Config.MchId, outTradeNo, title, totalFee, notifyUrl)
+            {
+                trade_type = "NATIVE"
+            };
             return new UnifiedorderNavite(Config, result);
         }
 
@@ -166,11 +169,13 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         {
             if (string.IsNullOrWhiteSpace(out_trade_no)) throw new ArgumentNullException();
 
-            var request = new Data.OrderQueryRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.nonce_str = Guid.NewGuid().ToString("N");
-            request.out_trade_no = out_trade_no;
+            var request = new Data.OrderQueryRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                nonce_str = Guid.NewGuid().ToString("N"),
+                out_trade_no = out_trade_no
+            };
 
             return OrderQuery(request);
         }
@@ -184,14 +189,16 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         [Obsolete]
         public Data.RefundResponse Refund(Data.RefundRequest request, X509Certificate2 certificate)
         {
-            if (request == null) throw new ArgumentNullException("request");
+            if (request == null) throw new ArgumentNullException("request");https://www.baidu.com/link?url=JLzu1BW3suf7VP3nZFybCAp_rEM1lIgWzEkuRj1mpPlMgOrsdRGO_wCx7P9kKBVx2zECIMvbm-lSCUj5cXzaBK&wd=&eqid=9dd30ff0000798a5000000066037d26d
             if (certificate == null) throw new ArgumentNullException("certificate");
 
             request.sign = Config.Signature(request);
             var xml = Util.XmlSerializer.Serialize(request).InnerXml;
-            var handler = new System.Net.Http.WebRequestHandler();
-            handler.ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual;
-            handler.UseDefaultCredentials = false;
+            var handler = new System.Net.Http.HttpClientHandler
+            {
+                ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual,
+                UseDefaultCredentials = false
+            };
             handler.ClientCertificates.Add(certificate);
             string content;
             using (var client = new System.Net.Http.HttpClient(handler))
@@ -231,16 +238,18 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             if (string.IsNullOrEmpty(transaction_id)) throw new ArgumentNullException("transaction_id");
             if (string.IsNullOrEmpty(out_refund_no)) throw new ArgumentNullException("out_refund_no");
 
-            var request = new Data.RefundRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.nonce_str = Guid.NewGuid().ToString("N");
-            request.transaction_id = transaction_id;
-            request.total_fee = total_fee;
-            request.refund_fee = refund_fee;
-            request.refund_desc = refund_desc;
-            request.out_refund_no = out_refund_no;
-            request.notify_url = notify_url;
+            var request = new Data.RefundRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                nonce_str = Guid.NewGuid().ToString("N"),
+                transaction_id = transaction_id,
+                total_fee = total_fee,
+                refund_fee = refund_fee,
+                refund_desc = refund_desc,
+                out_refund_no = out_refund_no,
+                notify_url = notify_url
+            };
             return Refund(request, certificate);
         }
 
@@ -261,16 +270,18 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             if (string.IsNullOrEmpty(out_trade_no)) throw new ArgumentNullException("out_trade_no");
             if (string.IsNullOrEmpty(out_refund_no)) throw new ArgumentNullException("out_refund_no");
 
-            var request = new Data.RefundRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.nonce_str = Guid.NewGuid().ToString("N");
-            request.out_trade_no = out_trade_no;
-            request.total_fee = total_fee;
-            request.refund_fee = refund_fee;
-            request.refund_desc = refund_desc;
-            request.out_refund_no = out_refund_no;
-            request.notify_url = notify_url;
+            var request = new Data.RefundRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                nonce_str = Guid.NewGuid().ToString("N"),
+                out_trade_no = out_trade_no,
+                total_fee = total_fee,
+                refund_fee = refund_fee,
+                refund_desc = refund_desc,
+                out_refund_no = out_refund_no,
+                notify_url = notify_url
+            };
             return Refund(request, certificate);
         }
 
@@ -335,11 +346,13 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.RefundQueryResponse RefundQueryByRefundId(string value)
         {
-            var request = new Data.RefundQueryRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.nonce_str = Guid.NewGuid().ToString("N");
-            request.refund_id = value;
+            var request = new Data.RefundQueryRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                nonce_str = Guid.NewGuid().ToString("N"),
+                refund_id = value
+            };
             return RefundQuery(request);
         }
 
@@ -350,11 +363,13 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.RefundQueryResponse out_refund_no(string value)
         {
-            var request = new Data.RefundQueryRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.nonce_str = Guid.NewGuid().ToString("N");
-            request.out_refund_no = value;
+            var request = new Data.RefundQueryRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                nonce_str = Guid.NewGuid().ToString("N"),
+                out_refund_no = value
+            };
             return RefundQuery(request);
         }
 
@@ -365,11 +380,13 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.RefundQueryResponse RefundQueryByOutTradeNo(string value)
         {
-            var request = new Data.RefundQueryRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.nonce_str = Guid.NewGuid().ToString("N");
-            request.out_trade_no = value;
+            var request = new Data.RefundQueryRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                nonce_str = Guid.NewGuid().ToString("N"),
+                out_trade_no = value
+            };
             return RefundQuery(request);
         }
 
@@ -380,11 +397,13 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.RefundQueryResponse RefundQueryByTransactionId(string value)
         {
-            var request = new Data.RefundQueryRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.nonce_str = Guid.NewGuid().ToString("N");
-            request.transaction_id = value;
+            var request = new Data.RefundQueryRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                nonce_str = Guid.NewGuid().ToString("N"),
+                transaction_id = value
+            };
             return RefundQuery(request);
         }
 
@@ -423,12 +442,14 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public string DownloadBill(DateTime date)
         {
-            var request = new Data.DownloadBillRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.nonce_str = Guid.NewGuid().ToString("N");
-            request.bill_type = "ALL";
-            request.bill_date = date.ToString("yyyyMMdd");
+            var request = new Data.DownloadBillRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                nonce_str = Guid.NewGuid().ToString("N"),
+                bill_type = "ALL",
+                bill_date = date.ToString("yyyyMMdd")
+            };
             return DownloadBill(request);
         }
     }

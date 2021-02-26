@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Data;
+using System;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Provider.InProcess
 {
     class AccessTokenStore : IAccessTokenStore
     {
-        private static System.Runtime.Caching.MemoryCache Memory = new System.Runtime.Caching.MemoryCache("AccessTokenStore");
+        private static readonly MemoryCache Memory = new MemoryCache(new MemoryCacheOptions());
 
         /// <summary>
         /// 获取
@@ -28,7 +25,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Provider.InProcess
         /// <param name="value"></param>
         public void Set(string key, AccessToken value)
         {
-            Memory.Set(key, value, new System.Runtime.Caching.CacheItemPolicy() { AbsoluteExpiration = DateTime.Now.AddSeconds(value.expires_in) });
+            Memory.Set(key, value, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpiration = new DateTimeOffset(DateTime.Now.AddSeconds(value.expires_in))
+            });
         }
     }
 }

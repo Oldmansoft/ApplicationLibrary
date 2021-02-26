@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 {
@@ -27,14 +23,15 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.AppOrderRequest GetRequest()
         {
-            var result = new Data.AppOrderRequest();
-            result.appid = Config.AppId;
-            result.partnerid = Config.MchId;
-            result.prepayid = GetResponse().prepay_id;
-            result.package = "Sign=WXPay";
-            result.timestamp = DateTime.Now.GetUnixTimestamp().ToString();
-            result.noncestr = Guid.NewGuid().ToString("N");
-            return result;
+            return new Data.AppOrderRequest
+            {
+                appid = Config.AppId,
+                partnerid = Config.MchId,
+                prepayid = GetResponse().prepay_id,
+                package = "Sign=WXPay",
+                timestamp = DateTime.Now.GetUnixTimestamp().ToString(),
+                noncestr = Guid.NewGuid().ToString("N")
+            };
         }
     }
 }

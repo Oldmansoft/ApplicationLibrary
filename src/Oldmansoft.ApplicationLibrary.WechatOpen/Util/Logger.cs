@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Util
 {
@@ -24,8 +20,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Util
         /// <param name="provider"></param>
         public static void SetProvider(ILoggerProvider provider)
         {
-            if (provider == null) throw new ArgumentNullException();
-            Provider = provider;
+            Provider = provider ?? throw new ArgumentNullException();
         }
 
         /// <summary>

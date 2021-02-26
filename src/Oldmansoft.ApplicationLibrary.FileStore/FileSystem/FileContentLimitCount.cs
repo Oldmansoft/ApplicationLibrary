@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
 {
@@ -14,8 +10,6 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
     public class FileContentLimitCount : FileContent
     {
         private static int CurrentCount { get; set; }
-        
-        private static int CurrentDirCount { get; set; }
         
         private static string CurrentDir { get; set; }
 
@@ -50,10 +44,9 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
             }
 
             short maxNumber = 1;
-            short numberName;
             foreach (var item in Directory.GetDirectories(fullPath))
             {
-                if (!short.TryParse(Path.GetFileName(item), out numberName)) continue;
+                if (!short.TryParse(Path.GetFileName(item), out short numberName)) continue;
                 if (numberName > maxNumber) maxNumber = numberName;
             }
             if (inc) maxNumber++;
@@ -69,11 +62,10 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
         private int GetMaxFileName(string path)
         {
             int maxNumber = 0;
-            int numberName;
             foreach (var item in Directory.GetFiles(path))
             {
                 if (Path.GetExtension(item) != ".file") continue;
-                if (!int.TryParse(Path.GetFileNameWithoutExtension(item), out numberName)) continue;
+                if (!int.TryParse(Path.GetFileNameWithoutExtension(item), out int numberName)) continue;
                 if (numberName > maxNumber) maxNumber = numberName;
             }
             return maxNumber;

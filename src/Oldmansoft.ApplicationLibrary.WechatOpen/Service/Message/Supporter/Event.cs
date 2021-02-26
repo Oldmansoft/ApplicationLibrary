@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
+﻿using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Provider.Data;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data;
+using System.Xml;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter
 {
     class Event : ParameterSupporter
     {
-        private IPositionStore PositionStore { get; set; }
+        private readonly IPositionStore PositionStore;
 
         public Event(IPositionStore positionStore)
         {
@@ -33,10 +28,12 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter
             switch (e)
             {
                 case "LOCATION":
-                    var position = new Position();
-                    position.Latitude = double.Parse(element.GetText("Latitude"));
-                    position.Longitude = double.Parse(element.GetText("Longitude"));
-                    position.Precision = double.Parse(element.GetText("Precision"));
+                    var position = new Position
+                    {
+                        Latitude = double.Parse(element.GetText("Latitude")),
+                        Longitude = double.Parse(element.GetText("Longitude")),
+                        Precision = double.Parse(element.GetText("Precision"))
+                    };
                     PositionStore.Set(element.GetText("FromUserName"), position);
                     return Result(MessageType.Position, position);
                 case "subscribe":
@@ -59,27 +56,33 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter
                 case "unsubscribe":
                     return Result(MessageType.Unsubscribe, null);
                 case "SCAN":
-                    ScanParameter scanParameter = new ScanParameter();
-                    scanParameter.Scene = element.GetText("EventKey");
-                    scanParameter.Ticket = element.GetText("Ticket");
+                    ScanParameter scanParameter = new ScanParameter
+                    {
+                        Scene = element.GetText("EventKey"),
+                        Ticket = element.GetText("Ticket")
+                    };
                     return Result(MessageType.Scan, scanParameter);
                 case "CLICK":
                     return Result(MessageType.Click, element.GetText("EventKey"));
                 case "VIEW":
                     return Result(MessageType.View, element.GetText("EventKey"));
                 case "MASSSENDJOBFINISH":
-                    var massSendJobFinish = new MassSendJobFinish();
-                    massSendJobFinish.MsgId = long.Parse(element.GetText("MsgID"));
-                    massSendJobFinish.Status = element.GetText("Status");
-                    massSendJobFinish.TotalCount = int.Parse(element.GetText("TotalCount"));
-                    massSendJobFinish.FilterCount = int.Parse(element.GetText("FilterCount"));
-                    massSendJobFinish.SentCount = int.Parse(element.GetText("SentCount"));
-                    massSendJobFinish.ErrorCount = int.Parse(element.GetText("ErrorCount"));
+                    var massSendJobFinish = new MassSendJobFinish
+                    {
+                        MsgId = long.Parse(element.GetText("MsgID")),
+                        Status = element.GetText("Status"),
+                        TotalCount = int.Parse(element.GetText("TotalCount")),
+                        FilterCount = int.Parse(element.GetText("FilterCount")),
+                        SentCount = int.Parse(element.GetText("SentCount")),
+                        ErrorCount = int.Parse(element.GetText("ErrorCount"))
+                    };
                     return Result(MessageType.MassSendJobFinish, massSendJobFinish);
                 case "TEMPLATESENDJOBFINISH":
-                    var templateSendJobFinish = new TemplateSendJobFinish();
-                    templateSendJobFinish.MsgId = long.Parse(element.GetText("MsgID"));
-                    templateSendJobFinish.Status = element.GetText("Status");
+                    var templateSendJobFinish = new TemplateSendJobFinish
+                    {
+                        MsgId = long.Parse(element.GetText("MsgID")),
+                        Status = element.GetText("Status")
+                    };
                     return Result(MessageType.TemplateSendJobFinish, templateSendJobFinish);
                 default:
                     return Result(MessageType.UnknowEvent, element);

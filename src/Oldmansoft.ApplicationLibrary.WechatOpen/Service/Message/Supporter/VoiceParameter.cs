@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter
+﻿namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter
 {
     /// <summary>
     /// 语音参数

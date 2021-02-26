@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oldmansoft.ApplicationLibrary.FileStore", "Oldmansoft.ApplicationLibrary.FileStore\Oldmansoft.ApplicationLibrary.FileStore.csproj", "{814F5A5F-9EB7-42C0-9261-0DD2BA256E40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oldmansoft.ApplicationLibrary.FileStore", "Oldmansoft.ApplicationLibrary.FileStore\Oldmansoft.ApplicationLibrary.FileStore.csproj", "{4A0CEC74-0F64-4CAB-BB4E-70496CF005BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oldmansoft.ApplicationLibrary.FileStore.Mongo", "Oldmansoft.ApplicationLibrary.FileStore.Mongo\Oldmansoft.ApplicationLibrary.FileStore.Mongo.csproj", "{BB25140A-BF9D-4F8C-8B2E-53F0C20B8A64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oldmansoft.ApplicationLibrary.FileStore.Mongo", "Oldmansoft.ApplicationLibrary.FileStore.Mongo\Oldmansoft.ApplicationLibrary.FileStore.Mongo.csproj", "{53FEAABC-5D44-4F7D-92EE-2F38CFFEAFEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oldmansoft.ApplicationLibrary.WechatOpen", "Oldmansoft.ApplicationLibrary.WechatOpen\Oldmansoft.ApplicationLibrary.WechatOpen.csproj", "{4077524F-C9CC-4604-9286-8B3C10F3F164}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oldmansoft.ApplicationLibrary.WechatOpen", "Oldmansoft.ApplicationLibrary.WechatOpen\Oldmansoft.ApplicationLibrary.WechatOpen.csproj", "{7D19E9EB-E7E0-4E81-9158-46C6988D088C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,20 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{814F5A5F-9EB7-42C0-9261-0DD2BA256E40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{814F5A5F-9EB7-42C0-9261-0DD2BA256E40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{814F5A5F-9EB7-42C0-9261-0DD2BA256E40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{814F5A5F-9EB7-42C0-9261-0DD2BA256E40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BB25140A-BF9D-4F8C-8B2E-53F0C20B8A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB25140A-BF9D-4F8C-8B2E-53F0C20B8A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB25140A-BF9D-4F8C-8B2E-53F0C20B8A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB25140A-BF9D-4F8C-8B2E-53F0C20B8A64}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4077524F-C9CC-4604-9286-8B3C10F3F164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4077524F-C9CC-4604-9286-8B3C10F3F164}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4077524F-C9CC-4604-9286-8B3C10F3F164}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4077524F-C9CC-4604-9286-8B3C10F3F164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A0CEC74-0F64-4CAB-BB4E-70496CF005BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A0CEC74-0F64-4CAB-BB4E-70496CF005BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A0CEC74-0F64-4CAB-BB4E-70496CF005BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A0CEC74-0F64-4CAB-BB4E-70496CF005BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53FEAABC-5D44-4F7D-92EE-2F38CFFEAFEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53FEAABC-5D44-4F7D-92EE-2F38CFFEAFEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53FEAABC-5D44-4F7D-92EE-2F38CFFEAFEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53FEAABC-5D44-4F7D-92EE-2F38CFFEAFEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D19E9EB-E7E0-4E81-9158-46C6988D088C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D19E9EB-E7E0-4E81-9158-46C6988D088C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D19E9EB-E7E0-4E81-9158-46C6988D088C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D19E9EB-E7E0-4E81-9158-46C6988D088C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D2554CD1-BB5B-458B-A085-167BFBCA4725}
 	EndGlobalSection
 EndGlobal

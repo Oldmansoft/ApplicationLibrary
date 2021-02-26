@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 {
@@ -29,10 +26,8 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <param name="certificate">证书</param>
         public CertificatePayment(IConfig config, X509Certificate2 certificate)
         {
-            if (config == null) throw new ArgumentNullException("config");
-            if (certificate == null) throw new ArgumentNullException("certificate");
-            Config = config;
-            Certificate = certificate;
+            Config = config ?? throw new ArgumentNullException("config");
+            Certificate = certificate ?? throw new ArgumentNullException("certificate");
         }
 
         private TResponse Request<TRequest, TResponse>(TRequest request, Uri uri)
@@ -43,9 +38,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 
             request.sign = Config.Signature(request);
             var xml = Util.XmlSerializer.Serialize(request).InnerXml;
-            var handler = new System.Net.Http.WebRequestHandler();
-            handler.ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual;
-            handler.UseDefaultCredentials = false;
+            var handler = new System.Net.Http.HttpClientHandler
+            {
+                ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual,
+                UseDefaultCredentials = false
+            };
             handler.ClientCertificates.Add(Certificate);
             string content;
             using (var client = new System.Net.Http.HttpClient(handler))
@@ -83,15 +80,17 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             if (string.IsNullOrEmpty(transaction_id)) throw new ArgumentNullException("transaction_id");
             if (string.IsNullOrEmpty(out_refund_no)) throw new ArgumentNullException("out_refund_no");
 
-            var request = new Data.RefundRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.transaction_id = transaction_id;
-            request.total_fee = total_fee;
-            request.refund_fee = refund_fee;
-            request.refund_desc = refund_desc;
-            request.out_refund_no = out_refund_no;
-            request.notify_url = notify_url;
+            var request = new Data.RefundRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                transaction_id = transaction_id,
+                total_fee = total_fee,
+                refund_fee = refund_fee,
+                refund_desc = refund_desc,
+                out_refund_no = out_refund_no,
+                notify_url = notify_url
+            };
             return Request<Data.RefundRequest, Data.RefundResponse>(request, new Uri("https://api.mch.weixin.qq.com/secapi/pay/refund"));
         }
 
@@ -110,15 +109,17 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
             if (string.IsNullOrEmpty(out_trade_no)) throw new ArgumentNullException("out_trade_no");
             if (string.IsNullOrEmpty(out_refund_no)) throw new ArgumentNullException("out_refund_no");
 
-            var request = new Data.RefundRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.out_trade_no = out_trade_no;
-            request.total_fee = total_fee;
-            request.refund_fee = refund_fee;
-            request.refund_desc = refund_desc;
-            request.out_refund_no = out_refund_no;
-            request.notify_url = notify_url;
+            var request = new Data.RefundRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                out_trade_no = out_trade_no,
+                total_fee = total_fee,
+                refund_fee = refund_fee,
+                refund_desc = refund_desc,
+                out_refund_no = out_refund_no,
+                notify_url = notify_url
+            };
             return Request<Data.RefundRequest, Data.RefundResponse>(request, new Uri("https://api.mch.weixin.qq.com/secapi/pay/refund"));
         }
 
@@ -133,15 +134,17 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.TransferToWechatResponse TransferToWechat(string partnerTradeNo, string openId, int amount, string desc, string clientIp)
         {
-            var request = new Data.TransferToWechatRequest();
-            request.mch_appid = Config.AppId;
-            request.mchid = Config.MchId;
-            request.partner_trade_no = partnerTradeNo;
-            request.openid = openId;
-            request.check_name = "NO_CHECK";
-            request.amount = amount;
-            request.desc = desc;
-            request.spbill_create_ip = clientIp;
+            var request = new Data.TransferToWechatRequest
+            {
+                mch_appid = Config.AppId,
+                mchid = Config.MchId,
+                partner_trade_no = partnerTradeNo,
+                openid = openId,
+                check_name = "NO_CHECK",
+                amount = amount,
+                desc = desc,
+                spbill_create_ip = clientIp
+            };
             return Request<Data.TransferToWechatRequest, Data.TransferToWechatResponse>(request, new Uri("https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers"));
         }
 
@@ -158,16 +161,18 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.TransferToWechatResponse TransferToWechat(string partnerTradeNo, string openId, string userName, int amount, string desc, string clientIp)
         {
-            var request = new Data.TransferToWechatRequest();
-            request.mch_appid = Config.AppId;
-            request.mchid = Config.MchId;
-            request.partner_trade_no = partnerTradeNo;
-            request.openid = openId;
-            request.check_name = "FORCE_CHECK";
-            request.re_user_name = userName;
-            request.amount = amount;
-            request.desc = desc;
-            request.spbill_create_ip = clientIp;
+            var request = new Data.TransferToWechatRequest
+            {
+                mch_appid = Config.AppId,
+                mchid = Config.MchId,
+                partner_trade_no = partnerTradeNo,
+                openid = openId,
+                check_name = "FORCE_CHECK",
+                re_user_name = userName,
+                amount = amount,
+                desc = desc,
+                spbill_create_ip = clientIp
+            };
             return Request<Data.TransferToWechatRequest, Data.TransferToWechatResponse>(request, new Uri("https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers"));
         }
         
@@ -178,10 +183,12 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.GetTransferInfoResponse GetTransferInfo(string partner_trade_no)
         {
-            var request = new Data.GetTransferInfoRequest();
-            request.appid = Config.AppId;
-            request.mch_id = Config.MchId;
-            request.partner_trade_no = partner_trade_no;
+            var request = new Data.GetTransferInfoRequest
+            {
+                appid = Config.AppId,
+                mch_id = Config.MchId,
+                partner_trade_no = partner_trade_no
+            };
             return Request<Data.GetTransferInfoRequest, Data.GetTransferInfoResponse>(request, new Uri("https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo"));
         }
 
@@ -191,8 +198,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.GetPublicKeyResponse GetPublicKey()
         {
-            var request = new Data.GetPublicKeyRequest();
-            request.mch_id = Config.MchId;
+            var request = new Data.GetPublicKeyRequest
+            {
+                mch_id = Config.MchId
+            };
             return Request<Data.GetPublicKeyRequest, Data.GetPublicKeyResponse>(request, new Uri("https://fraud.mch.weixin.qq.com/risk/getpublickey"));
         }
 
@@ -208,14 +217,16 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.TransferToBankResponse TransferToBank(string partnerTradeNo, string encBankNo, string encTrueName, string bankCode, int amount, string desc)
         {
-            var request = new Data.TransferToBankRequest();
-            request.mch_id = Config.MchId;
-            request.partner_trade_no = partnerTradeNo;
-            request.enc_bank_no = encBankNo;
-            request.enc_true_name = encTrueName;
-            request.bank_code = bankCode;
-            request.amount = amount;
-            request.desc = desc;
+            var request = new Data.TransferToBankRequest
+            {
+                mch_id = Config.MchId,
+                partner_trade_no = partnerTradeNo,
+                enc_bank_no = encBankNo,
+                enc_true_name = encTrueName,
+                bank_code = bankCode,
+                amount = amount,
+                desc = desc
+            };
             return Request<Data.TransferToBankRequest, Data.TransferToBankResponse>(request, new Uri("https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank"));
         }
 
@@ -226,9 +237,11 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <returns></returns>
         public Data.QueryBankResponse QueryBank(string partnerTradeNo)
         {
-            var request = new Data.QueryBankRequest();
-            request.mch_id = Config.MchId;
-            request.partner_trade_no = partnerTradeNo;
+            var request = new Data.QueryBankRequest
+            {
+                mch_id = Config.MchId,
+                partner_trade_no = partnerTradeNo
+            };
             return Request<Data.QueryBankRequest, Data.QueryBankResponse>(request, new Uri("https://api.mch.weixin.qq.com/mmpaysptrans/query_bank"));
         }
     }

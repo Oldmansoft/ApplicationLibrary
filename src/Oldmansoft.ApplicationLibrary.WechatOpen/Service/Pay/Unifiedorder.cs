@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
 {
@@ -25,10 +22,8 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         /// <param name="request"></param>
         public Unifiedorder(IConfig config, Data.UnifiedorderRequest request)
         {
-            if (config == null) throw new ArgumentNullException("config");
-            if (request == null) throw new ArgumentNullException("request");
-            Config = config;
-            Request = request;
+            Config = config ?? throw new ArgumentNullException("config");
+            Request = request ?? throw new ArgumentNullException("request");
         }
         
         /// <summary>

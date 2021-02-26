@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data;
+﻿using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Xml;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
 {
@@ -18,9 +14,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
     /// </summary>
     public class Server : IResponse
     {
-        private System.Collections.Concurrent.ConcurrentDictionary<MessageType, MessageDealer> MessageDealers { get; set; }
+        private readonly ConcurrentDictionary<MessageType, MessageDealer> MessageDealers;
 
-        private Dictionary<string, ParameterSupporter> ParameterSupporters { get; set; }
+        private readonly Dictionary<string, ParameterSupporter> ParameterSupporters;
 
         /// <summary>
         /// 平台
@@ -43,9 +39,8 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
         /// <param name="platform"></param>
         public Server(IPlatform platform)
         {
-            if (platform == null) throw new ArgumentNullException();
-            Platform = platform;
-            MessageDealers = new System.Collections.Concurrent.ConcurrentDictionary<MessageType, MessageDealer>();
+            Platform = platform ?? throw new ArgumentNullException();
+            MessageDealers = new ConcurrentDictionary<MessageType, MessageDealer>();
             ParameterSupporters = new Dictionary<string, ParameterSupporter>(StringComparer.CurrentCultureIgnoreCase);
             AddParameterSupporter(new Event(platform.PositionStore));
             AddParameterSupporter(new Image());
@@ -100,8 +95,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
         /// <returns></returns>
         public XmlDocument Deal(XmlDocument input)
         {
-            InputHead head;
-            return Deal(input, out head);
+            return Deal(input, out _);
         }
 
         /// <summary>
@@ -117,8 +111,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
             if (input.DocumentElement == null) return null;
             if (!InitInputHead(input.DocumentElement, out head)) return null;
 
-            ParameterSupporter parameterSupporter;
-            if (!ParameterSupporters.TryGetValue(head.MsgType, out parameterSupporter))
+            if (!ParameterSupporters.TryGetValue(head.MsgType, out ParameterSupporter parameterSupporter))
             {
                 throw new NotImplementedException(string.Format("{0} 没有实现", head.MsgType));
             }
@@ -126,9 +119,8 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
             var parameter = parameterSupporter.Init(input.DocumentElement);
             parameter.Source = input;
             parameter.Head = head;
-            MessageDealer dealer;
             ReplyMessage message;
-            if (MessageDealers.TryGetValue(parameter.DealType, out dealer))
+            if (MessageDealers.TryGetValue(parameter.DealType, out MessageDealer dealer))
             {
                 message = dealer.DealMessage(parameter);
             }
@@ -166,11 +158,13 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message
             if (toUserName == null) return false;
             if (fromUserName == null) return false;
 
-            head = new InputHead();
-            head.AppId = Platform.Config.AppId;
-            head.MsgType = msgType;
-            head.ToUserName = toUserName;
-            head.FromUserName = fromUserName;
+            head = new InputHead
+            {
+                AppId = Platform.Config.AppId,
+                MsgType = msgType,
+                ToUserName = toUserName,
+                FromUserName = fromUserName
+            };
             if (msgId != null) head.MsgId = long.Parse(msgId);
             head.CreateTime = int.Parse(createTime).GetLocalTime();
             return true;

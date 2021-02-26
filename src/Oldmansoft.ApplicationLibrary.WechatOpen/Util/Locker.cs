@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Util
 {
@@ -25,9 +25,9 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Util
 
     class Locker<T> : IDisposable
     {
-        private static readonly System.Collections.Concurrent.ConcurrentDictionary<T, object> Store = new System.Collections.Concurrent.ConcurrentDictionary<T, object>();
+        private static readonly ConcurrentDictionary<T, object> Store = new ConcurrentDictionary<T, object>();
 
-        private SortedSet<T> List;
+        private readonly SortedSet<T> List;
 
         public Locker(params T[] id)
         {
@@ -46,7 +46,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Util
 
             foreach (var item in List)
             {
-                System.Threading.Monitor.Enter(Store[item]);
+                Monitor.Enter(Store[item]);
             }
         }
 
@@ -54,7 +54,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Util
         {
             foreach (var item in List.Reverse())
             {
-                System.Threading.Monitor.Exit(Store[item]);
+                Monitor.Exit(Store[item]);
             }
         }
     }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Data;
+﻿using Oldmansoft.ApplicationLibrary.WechatOpen.Data;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
+using System;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen
 {
@@ -29,10 +25,8 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// <param name="store"></param>
         private AuthUser(IAuth auth, IUserTokenStore store)
         {
-            if (auth == null) throw new ArgumentNullException("auth");
-            if (store == null) throw new ArgumentNullException("store");
-            Auth = auth;
-            UserTokenStore = store;
+            Auth = auth ?? throw new ArgumentNullException("auth");
+            UserTokenStore = store ?? throw new ArgumentNullException("store");
         }
 
         internal static AuthUser Create(IAuth auth, IUserTokenStore store, string code)
@@ -46,9 +40,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
 
         internal static AuthUser CreateFromCache(IAuth auth, IUserTokenStore store, string openId)
         {
-            var result = new AuthUser(auth, store);
-            result.OpenId = openId;
-            return result;
+            return new AuthUser(auth, store)
+            {
+                OpenId = openId
+            };
         }
         
         /// <summary>

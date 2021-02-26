@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Dealers;
 using System.Xml;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message

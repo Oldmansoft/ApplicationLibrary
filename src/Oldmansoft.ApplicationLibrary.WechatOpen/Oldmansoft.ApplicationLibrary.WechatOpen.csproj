@@ -1,173 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4077524F-C9CC-4604-9286-8B3C10F3F164}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Oldmansoft.ApplicationLibrary.WechatOpen</RootNamespace>
-    <AssemblyName>Oldmansoft.ApplicationLibrary.WechatOpen</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.0.0</Version>
+    <Authors>Oldman</Authors>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\Oldmansoft.ApplicationLibrary.WechatOpen.xml</DocumentationFile>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Oldmansoft.ApplicationLibrary.WechatOpen.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Oldmansoft.ApplicationLibrary.WechatOpen.XML</DocumentationFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http.WebRequest" />
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CalledServerBusyException.cs" />
-    <Compile Include="CallException.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="Data\AccessToken.cs" />
-    <Compile Include="Data\AccessUserInfo.cs" />
-    <Compile Include="Data\Error.cs" />
-    <Compile Include="Data\SignatureContext.cs" />
-    <Compile Include="Data\Ticket.cs" />
-    <Compile Include="Data\AuthUserInfo.cs" />
-    <Compile Include="Data\UserToken.cs" />
-    <Compile Include="Extends.cs" />
-    <Compile Include="IConfig.cs" />
-    <Compile Include="IPlatform.cs" />
-    <Compile Include="IAuth.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Provider\Data\Position.cs" />
-    <Compile Include="Provider\IAccessTokenStore.cs" />
-    <Compile Include="Provider\InProcess\UserTokenStore.cs" />
-    <Compile Include="Provider\InProcess\TicketStore.cs" />
-    <Compile Include="Provider\InProcess\AccessTokenStore.cs" />
-    <Compile Include="Provider\InProcess\PositionStore.cs" />
-    <Compile Include="Provider\IPositionStore.cs" />
-    <Compile Include="Provider\IStore.cs" />
-    <Compile Include="Provider\ITicketStore.cs" />
-    <Compile Include="Provider\IUserTokenStore.cs" />
-    <Compile Include="Platform.cs" />
-    <Compile Include="Service\Keyword\Server.cs" />
-    <Compile Include="Service\Keyword\InputDealer.cs" />
-    <Compile Include="Service\Keyword\KeywordDealer.cs" />
-    <Compile Include="Service\Keyword\KeywordType.cs" />
-    <Compile Include="Service\Keyword\NotMatchDealer.cs" />
-    <Compile Include="Service\Message\Data\Article.cs" />
-    <Compile Include="Service\Message\Data\DealParameter.cs" />
-    <Compile Include="Service\Message\Data\InputHead.cs" />
-    <Compile Include="Service\Message\Data\ReplyMessage.cs" />
-    <Compile Include="Service\Message\Data\ReplyNews.cs" />
-    <Compile Include="Service\Message\Data\ReplyNull.cs" />
-    <Compile Include="Service\Message\Data\ReplyText.cs" />
-    <Compile Include="Service\Message\Dealer.cs" />
-    <Compile Include="Service\Message\IResponse.cs" />
-    <Compile Include="Service\JsSdk.cs" />
-    <Compile Include="Service\Keyword\ClickDealer.cs" />
-    <Compile Include="Service\Message\Dealers\MessageDealer.cs" />
-    <Compile Include="Service\Message\Dealers\TextDealer.cs" />
-    <Compile Include="Service\Message\ParameterSupporter.cs" />
-    <Compile Include="Service\Message\Server.cs" />
-    <Compile Include="Service\Message\MessageType.cs" />
-    <Compile Include="Service\Message\Supporter\Event.cs" />
-    <Compile Include="Service\Message\Supporter\Image.cs" />
-    <Compile Include="Service\Message\Supporter\ImageParameter.cs" />
-    <Compile Include="Service\Message\Supporter\Link.cs" />
-    <Compile Include="Service\Message\Supporter\LinkParameter.cs" />
-    <Compile Include="Service\Message\Supporter\Location.cs" />
-    <Compile Include="Service\Message\Supporter\LocationParameter.cs" />
-    <Compile Include="Service\Message\Supporter\MassSendJobFinish.cs" />
-    <Compile Include="Service\Message\Supporter\MediaParameter.cs" />
-    <Compile Include="Service\Message\Supporter\ScanParameter.cs" />
-    <Compile Include="Service\Message\Supporter\ShortVideo.cs" />
-    <Compile Include="Service\Message\Supporter\TemplateSendJobFinish.cs" />
-    <Compile Include="Service\Message\Supporter\Text.cs" />
-    <Compile Include="Service\Message\Supporter\Video.cs" />
-    <Compile Include="Service\Message\Supporter\VideoParameter.cs" />
-    <Compile Include="Service\Message\Supporter\Voice.cs" />
-    <Compile Include="Service\Message\Supporter\VoiceParameter.cs" />
-    <Compile Include="Auth.cs" />
-    <Compile Include="AuthUser.cs" />
-    <Compile Include="Service\Pay\CertificatePayment.cs" />
-    <Compile Include="Service\Pay\Config.cs" />
-    <Compile Include="Service\Pay\Data\AppOrderRequest.cs" />
-    <Compile Include="Service\Pay\BankCode.cs" />
-    <Compile Include="Service\Pay\Data\DownloadBillFailResponse.cs" />
-    <Compile Include="Service\Pay\Data\DownloadBillRequest.cs" />
-    <Compile Include="Service\Pay\Data\GetPublicKeyRequest.cs" />
-    <Compile Include="Service\Pay\Data\GetPublicKeyResponse.cs" />
-    <Compile Include="Service\Pay\Data\GetTransferInfoResponse.cs" />
-    <Compile Include="Service\Pay\Data\GetTransferInfoRequest.cs" />
-    <Compile Include="Service\Pay\Data\JsapiOrderRequest.cs" />
-    <Compile Include="Service\Pay\Data\QueryBankRequest.cs" />
-    <Compile Include="Service\Pay\Data\QueryBankResponse.cs" />
-    <Compile Include="Service\Pay\Data\RefundQueryRequest.cs" />
-    <Compile Include="Service\Pay\Data\RefundQueryResponse.cs" />
-    <Compile Include="Service\Pay\Data\RefundRequest.cs" />
-    <Compile Include="Service\Pay\Data\OrderQueryRequest.cs" />
-    <Compile Include="Service\Pay\Data\OrderResponse.cs" />
-    <Compile Include="Service\Pay\Data\RefundResponse.cs" />
-    <Compile Include="Service\Pay\Data\Request.cs" />
-    <Compile Include="Service\Pay\Data\Response.cs" />
-    <Compile Include="Service\Pay\Data\TransferToBankRequest.cs" />
-    <Compile Include="Service\Pay\Data\TransferToBankResponse.cs" />
-    <Compile Include="Service\Pay\Data\TransferToWechatRequest.cs" />
-    <Compile Include="Service\Pay\Data\TransferToWechatResponse.cs" />
-    <Compile Include="Service\Pay\Data\UnifiedorderResponse.cs" />
-    <Compile Include="Service\Pay\IConfig.cs" />
-    <Compile Include="Service\Pay\Payment.cs" />
-    <Compile Include="Service\Pay\Data\UnifiedorderRequest.cs" />
-    <Compile Include="Service\Pay\SignatureException.cs" />
-    <Compile Include="Service\Pay\Unifiedorder.cs" />
-    <Compile Include="Service\Pay\UnifiedorderNavite.cs" />
-    <Compile Include="Service\Pay\UnifiedorderApp.cs" />
-    <Compile Include="Service\Pay\UnifiedorderJsapi.cs" />
-    <Compile Include="Service\Pay\Util\XmlSerializer.cs" />
-    <Compile Include="Util\ILoggerProvider.cs" />
-    <Compile Include="Util\Locker.cs" />
-    <Compile Include="Util\Logger.cs" />
-    <Compile Include="Util\LoggerProvider.cs" />
-    <Compile Include="Util\Md5.cs" />
-    <Compile Include="Visitor.cs" />
-    <Compile Include="WechatBusinessException.cs" />
-    <Compile Include="WechatException.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

@@ -8,7 +8,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
 {
     static class Extends
     {
-        internal static string GetDatabase(this Uri source)
+        internal static string GetDatabaseName(this Uri source)
         {
             return source.AbsolutePath.Substring(1);
         }

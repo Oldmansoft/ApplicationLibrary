@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen
 {
@@ -180,8 +176,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         internal static CallException Create(Data.Error error)
         {
             var code = error.errcode;
-            string message;
-            if (ErrorMessages.TryGetValue(code, out message))
+            if (ErrorMessages.TryGetValue(code, out string message))
             {
                 message = string.Format("{0} {1}", error.errmsg, message);
             }

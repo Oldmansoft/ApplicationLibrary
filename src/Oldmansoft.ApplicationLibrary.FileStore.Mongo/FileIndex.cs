@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
 {
@@ -14,12 +10,15 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
     {
         private Repositories.RepositoryFactory Factory { get; set; }
 
+        private Infrastructure.IFileIndexRepository Repository { get; set; }
+
         /// <summary>
         /// 创建
         /// </summary>
         public FileIndex()
         {
             Factory = new Repositories.RepositoryFactory();
+            Repository = Factory.GetRepository<Infrastructure.IFileIndexRepository>();
         }
 
         /// <summary>
@@ -28,8 +27,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         /// <param name="file"></param>
         public void Add(FileData file)
         {
-            var repository = Factory.CreateFileIndexRepository();
-            repository.Add(file);
+            Repository.Add(file);
             Factory.GetUnitOfWork().Commit();
         }
 
@@ -51,7 +49,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         /// <param name="id"></param>
         public void DecRef(string id)
         {
-            Factory.CreateFileIndexRepository().DecRef(id);
+            Repository.DecRef(id);
             Factory.GetUnitOfWork().Commit();
         }
 
@@ -62,7 +60,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         /// <returns></returns>
         public FileData Get(string id)
         {
-            return Factory.CreateFileIndexRepository().Get(id);
+            return Repository.Get(id);
         }
 
         /// <summary>
@@ -71,7 +69,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         /// <param name="id"></param>
         public void IncRef(string id)
         {
-            Factory.CreateFileIndexRepository().IncRef(id);
+            Repository.IncRef(id);
             Factory.GetUnitOfWork().Commit();
         }
 
@@ -81,10 +79,9 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         /// <param name="id"></param>
         public void Remove(string id)
         {
-            var repository = Factory.CreateFileIndexRepository();
-            var domain = repository.Get(id);
+            var domain = Repository.Get(id);
             if (domain == null) return;
-            repository.Remove(domain);
+            Repository.Remove(domain);
             Factory.GetUnitOfWork().Commit();
         }
 
@@ -95,7 +92,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         /// <returns></returns>
         public bool HasLocation(string location)
         {
-            return Factory.CreateFileIndexRepository().Query().Where(o => o.Location == location).FirstOrDefault() != null;
+            return Repository.HasLocation(location);
         }
     }
 }

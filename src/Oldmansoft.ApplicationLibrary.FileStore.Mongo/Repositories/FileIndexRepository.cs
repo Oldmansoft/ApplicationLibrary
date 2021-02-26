@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo.Repositories
 {
-    class FileIndexRepository : ClassicDomain.Driver.Mongo.Repository<FileData, string, Mapping>
+    class FileIndexRepository : ClassicDomain.Driver.Mongo.Repository<FileData, string, Mapping>, Infrastructure.IFileIndexRepository
     {
-        public FileIndexRepository(ClassicDomain.UnitOfWork uow)
-            : base(uow)
-        { }
-
         public void IncRef(string id)
         {
             Execute(collection =>
@@ -28,6 +20,11 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo.Repositories
                 collection.Update(MongoDB.Driver.Builders.Query.Create("_id", id), MongoDB.Driver.Builders.Update.Inc("Count", -1));
                 return true;
             });
+        }
+
+        public bool HasLocation(string location)
+        {
+            return Query().Where(o => o.Location == location).FirstOrDefault() != null;
         }
     }
 }

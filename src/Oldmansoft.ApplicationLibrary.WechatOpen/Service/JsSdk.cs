@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Data;
+﻿using Oldmansoft.ApplicationLibrary.WechatOpen.Data;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
+using System;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
 {
@@ -13,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
     /// </summary>
     public class JsSdk
     {
-        private static object RefreshTicket_Locker = new object();
+        private static readonly object RefreshTicket_Locker = new object();
 
         private IPlatform Platform { get; set; }
 
@@ -28,8 +24,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
         /// <param name="platform"></param>
         public JsSdk(IPlatform platform)
         {
-            if (platform == null) throw new ArgumentNullException();
-            Platform = platform;
+            Platform = platform ?? throw new ArgumentNullException();
             TicketStore = new Provider.InProcess.TicketStore();
         }
 
@@ -88,11 +83,13 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service
         /// <returns></returns>
         public string Signature(string noncestr, long timestamp, string url)
         {
-            var input = new SignatureContext();
-            input.noncestr = noncestr;
-            input.timestamp = timestamp;
-            input.url = url;
-            input.jsapi_ticket = GetTicketString();
+            var input = new SignatureContext
+            {
+                noncestr = noncestr,
+                timestamp = timestamp,
+                url = url,
+                jsapi_ticket = GetTicketString()
+            };
             return input.ToString().GetSHA1Hash();
         }
     }

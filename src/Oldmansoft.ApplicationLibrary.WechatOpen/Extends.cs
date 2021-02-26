@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen
@@ -95,11 +92,15 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
             DateTime startTime;
             if (source.Kind == DateTimeKind.Local)
             {
-                startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+                startTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Local);
+            }
+            else if (source.Kind == DateTimeKind.Utc)
+            {
+                startTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             }
             else
             {
-                startTime = TimeZone.CurrentTimeZone.ToUniversalTime(new DateTime(1970, 1, 1));
+                startTime = new DateTime(1970, 1, 1);
             }
             return (int)(source - startTime).TotalSeconds;
         }
@@ -111,7 +112,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// <returns></returns>
         public static DateTime GetLocalTime(this int source)
         {
-            return TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)).AddSeconds(source);
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Local).AddSeconds(source);
         }
 
         /// <summary>

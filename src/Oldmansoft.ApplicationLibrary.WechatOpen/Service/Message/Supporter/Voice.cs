@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data;
 using System.Xml;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Data;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter
 {
@@ -20,10 +15,12 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Message.Supporter
 
         internal override DealParameter Init(XmlElement element)
         {
-            var result = new VoiceParameter();
-            result.Format = element.GetText("Format");
-            result.MediaId = element.GetText("MediaId");
-            result.Recognition = element.GetText("Recognition");
+            var result = new VoiceParameter
+            {
+                Format = element.GetText("Format"),
+                MediaId = element.GetText("MediaId"),
+                Recognition = element.GetText("Recognition")
+            };
             return Result(result);
         }
     }

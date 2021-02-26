@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Oldmansoft.ApplicationLibrary.WechatOpen.Data;
+﻿using Oldmansoft.ApplicationLibrary.WechatOpen.Data;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Provider;
+using System;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen
 {
@@ -13,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
     /// </summary>
     public class Platform : IPlatform
     {
-        private static object RefreshAccessToken_Locker = new object();
+        private static readonly object RefreshAccessToken_Locker = new object();
 
         /// <summary>
         /// 获取配置
@@ -37,8 +33,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen
         /// <param name="config"></param>
         public Platform(IConfig config)
         {
-            if (config == null) throw new ArgumentNullException();
-            Config = config;
+            Config = config ?? throw new ArgumentNullException();
             AccessTokenStore = new Provider.InProcess.AccessTokenStore();
             PositionStore = new Provider.InProcess.PositionStore();
         }

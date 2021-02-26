@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Oldmansoft.ApplicationLibrary.WechatOpen.Provider.Data;
+using System;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Provider.InProcess
 {
@@ -12,7 +9,7 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Provider.InProcess
     /// </summary>
     class PositionStore : IPositionStore
     {
-        private static System.Runtime.Caching.MemoryCache Memory = new System.Runtime.Caching.MemoryCache("PositionStore");
+        private static readonly MemoryCache Memory = new MemoryCache(new MemoryCacheOptions());
 
         /// <summary>
         /// 获取
@@ -31,7 +28,10 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Provider.InProcess
         /// <param name="value"></param>
         public void Set(string key, Position value)
         {
-            Memory.Set(key, value, new System.Runtime.Caching.CacheItemPolicy() { SlidingExpiration = new TimeSpan(1, 0, 0) });
+            Memory.Set(key, value, new MemoryCacheEntryOptions
+            {
+                SlidingExpiration = TimeSpan.FromHours(1)
+            });
         }
     }
 }
