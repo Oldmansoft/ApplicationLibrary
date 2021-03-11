@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
@@ -181,111 +180,6 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
         }
 
         /// <summary>
-        /// 申请退款
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="certificate"></param>
-        /// <returns></returns>
-        [Obsolete]
-        public Data.RefundResponse Refund(Data.RefundRequest request, X509Certificate2 certificate)
-        {
-            if (request == null) throw new ArgumentNullException("request");https://www.baidu.com/link?url=JLzu1BW3suf7VP3nZFybCAp_rEM1lIgWzEkuRj1mpPlMgOrsdRGO_wCx7P9kKBVx2zECIMvbm-lSCUj5cXzaBK&wd=&eqid=9dd30ff0000798a5000000066037d26d
-            if (certificate == null) throw new ArgumentNullException("certificate");
-
-            request.sign = Config.Signature(request);
-            var xml = Util.XmlSerializer.Serialize(request).InnerXml;
-            var handler = new System.Net.Http.HttpClientHandler
-            {
-                ClientCertificateOptions = System.Net.Http.ClientCertificateOption.Manual,
-                UseDefaultCredentials = false
-            };
-            handler.ClientCertificates.Add(certificate);
-            string content;
-            using (var client = new System.Net.Http.HttpClient(handler))
-            {
-                var response = client.PostAsync(new Uri("https://api.mch.weixin.qq.com/secapi/pay/refund"), new System.Net.Http.StringContent(xml, Encoding.UTF8)).Result;
-                content = response.Content.ReadAsStringAsync().Result;
-            }
-
-            var dom = new System.Xml.XmlDocument();
-            dom.LoadXml(content);
-            var result = Util.XmlSerializer.Deserialize<Data.RefundResponse>(dom);
-            if (result.return_code == "FAIL")
-            {
-                throw new WechatException(result.return_msg);
-            }
-            if (result.result_code == "FAIL")
-            {
-                throw new WechatBusinessException(result.err_code, result.err_code_des);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 申请退款
-        /// </summary>
-        /// <param name="transaction_id"></param>
-        /// <param name="total_fee"></param>
-        /// <param name="refund_fee"></param>
-        /// <param name="refund_desc"></param>
-        /// <param name="out_refund_no"></param>
-        /// <param name="notify_url"></param>
-        /// <param name="certificate"></param>
-        /// <returns></returns>
-        [Obsolete("请改用 CertificatePayment")]
-        public Data.RefundResponse Refund(string transaction_id, int total_fee, int refund_fee, string refund_desc, string out_refund_no, string notify_url, X509Certificate2 certificate)
-        {
-            if (string.IsNullOrEmpty(transaction_id)) throw new ArgumentNullException("transaction_id");
-            if (string.IsNullOrEmpty(out_refund_no)) throw new ArgumentNullException("out_refund_no");
-
-            var request = new Data.RefundRequest
-            {
-                appid = Config.AppId,
-                mch_id = Config.MchId,
-                nonce_str = Guid.NewGuid().ToString("N"),
-                transaction_id = transaction_id,
-                total_fee = total_fee,
-                refund_fee = refund_fee,
-                refund_desc = refund_desc,
-                out_refund_no = out_refund_no,
-                notify_url = notify_url
-            };
-            return Refund(request, certificate);
-        }
-
-        /// <summary>
-        /// 申请退款
-        /// </summary>
-        /// <param name="certificate"></param>
-        /// <param name="out_trade_no"></param>
-        /// <param name="total_fee"></param>
-        /// <param name="refund_fee"></param>
-        /// <param name="refund_desc"></param>
-        /// <param name="out_refund_no"></param>
-        /// <param name="notify_url"></param>
-        /// <returns></returns>
-        [Obsolete("请改用 CertificatePayment")]
-        public Data.RefundResponse Refund(X509Certificate2 certificate, string out_trade_no, int total_fee, int refund_fee, string refund_desc, string out_refund_no, string notify_url)
-        {
-            if (string.IsNullOrEmpty(out_trade_no)) throw new ArgumentNullException("out_trade_no");
-            if (string.IsNullOrEmpty(out_refund_no)) throw new ArgumentNullException("out_refund_no");
-
-            var request = new Data.RefundRequest
-            {
-                appid = Config.AppId,
-                mch_id = Config.MchId,
-                nonce_str = Guid.NewGuid().ToString("N"),
-                out_trade_no = out_trade_no,
-                total_fee = total_fee,
-                refund_fee = refund_fee,
-                refund_desc = refund_desc,
-                out_refund_no = out_refund_no,
-                notify_url = notify_url
-            };
-            return Refund(request, certificate);
-        }
-
-        /// <summary>
         /// 退款查询
         /// </summary>
         /// <param name="request"></param>
@@ -352,23 +246,6 @@ namespace Oldmansoft.ApplicationLibrary.WechatOpen.Service.Pay
                 mch_id = Config.MchId,
                 nonce_str = Guid.NewGuid().ToString("N"),
                 refund_id = value
-            };
-            return RefundQuery(request);
-        }
-
-        /// <summary>
-        /// 退款查询
-        /// </summary>
-        /// <param name="value">商户系统内部的退款单号</param>
-        /// <returns></returns>
-        public Data.RefundQueryResponse out_refund_no(string value)
-        {
-            var request = new Data.RefundQueryRequest
-            {
-                appid = Config.AppId,
-                mch_id = Config.MchId,
-                nonce_str = Guid.NewGuid().ToString("N"),
-                out_refund_no = value
             };
             return RefundQuery(request);
         }
