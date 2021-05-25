@@ -43,10 +43,31 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CreatedTime { get; private set; }
+        public DateTime Created { get; private set; }
         
         private FileData()
         {
+        }
+
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="contentType"></param>
+        /// <param name="contentLength"></param>
+        /// <returns></returns>
+        public static FileData Create(string id, string name, string contentType, long contentLength)
+        {
+            return new FileData
+            {
+                Id = id,
+                Name = name,
+                ContentType = contentType,
+                ContentLength = contentLength,
+                Count = 1,
+                Created = DateTime.UtcNow
+            };
         }
 
         /// <summary>
@@ -56,18 +77,19 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
         /// <param name="name"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public static FileData Create(Stream stream, string name, string contentType)
+        public static FileData CreateWithStream(Stream stream, string name, string contentType)
         {
-            var domain = new FileData();
-            domain.Stream = stream;
             stream.Position = 0;
-            domain.Id = BitConverter.ToString(new System.Security.Cryptography.SHA256CryptoServiceProvider().ComputeHash(stream)).Replace("-", "");
-            domain.Name = name;
-            domain.ContentType = contentType;
-            domain.ContentLength = stream.Length;
-            domain.Count = 1;
-            domain.CreatedTime = DateTime.Now;
-            return domain;
+            return new FileData
+            {
+                Stream = stream,
+                Id = BitConverter.ToString(new System.Security.Cryptography.SHA256CryptoServiceProvider().ComputeHash(stream)).Replace("-", ""),
+                Name = name,
+                ContentType = contentType,
+                ContentLength = stream.Length,
+                Count = 1,
+                Created = DateTime.UtcNow
+            };
         }
 
         internal Stream GetStream()
@@ -76,14 +98,13 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
             return Stream;
         }
 
-        internal void SetLocation(string location)
+        /// <summary>
+        /// 设置
+        /// </summary>
+        /// <param name="location"></param>
+        public void SetLocation(string location)
         {
             Location = location;
-        }
-
-        internal string GetLocation()
-        {
-            return Location;
         }
     }
 }

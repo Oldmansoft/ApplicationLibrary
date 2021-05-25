@@ -8,23 +8,29 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
     public interface IFileContent
     {
         /// <summary>
-        /// 保存文件
+        /// 创建位置
         /// </summary>
-        /// <param name="stream"></param>
         /// <returns></returns>
-        string Save(Stream stream);
+        string CreateLocation();
 
         /// <summary>
-        /// 加载文件
+        /// 保存文件
         /// </summary>
-        /// <param name="location"></param>
+        /// <param name="location">位置</param>
+        /// <param name="stream">文件流</param>
+        void Save(string location, Stream stream);
+
+        /// <summary>
+        /// 读取文件
+        /// </summary>
+        /// <param name="location">位置</param>
         /// <returns></returns>
-        Stream Load(string location);
+        Stream OpenRead(string location);
 
         /// <summary>
         /// 移除文件
         /// </summary>
-        /// <param name="location"></param>
+        /// <param name="location">位置</param>
         void Remove(string location);
     }
 }

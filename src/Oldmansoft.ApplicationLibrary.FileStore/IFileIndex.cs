@@ -5,14 +5,16 @@
     /// </summary>
     public interface IFileIndex
     {
+
         /// <summary>
-        /// 创建文件
+        /// 创建文件数据
         /// </summary>
-        /// <param name="stream"></param>
+        /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="contentType"></param>
+        /// <param name="contentLength"></param>
         /// <returns></returns>
-        FileData Create(System.IO.Stream stream, string name, string contentType);
+        FileData Create(string id, string name, string contentType, long contentLength);
 
         /// <summary>
         /// 获取文件

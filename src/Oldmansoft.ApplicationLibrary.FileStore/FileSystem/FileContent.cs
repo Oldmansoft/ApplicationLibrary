@@ -53,7 +53,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
         /// 创建文件路径
         /// </summary>
         /// <returns></returns>
-        protected virtual string CreatePath()
+        public virtual string CreateLocation()
         {
             var fileName = string.Format("{0:HHmmssffff}_{1}.file", DateTime.Now, GetCounter());
             var path = DateTime.UtcNow.ToString(@"yyyy\\MM\\dd");
@@ -70,14 +70,13 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
         }
 
         /// <summary>
-        /// 保存
+        /// 保存文件
         /// </summary>
+        /// <param name="location">位置</param>
         /// <param name="stream">文件流</param>
-        /// <returns></returns>
-        public string Save(Stream stream)
+        public void Save(string location, Stream stream)
         {
-            var location = CreatePath();
-            var buffer = new byte[1024 * 100];
+            var buffer = new byte[1024 * 64];
             using (var fs = new FileStream(Path.Combine(BasePath, location), FileMode.CreateNew))
             {
                 var length = stream.Read(buffer, 0, buffer.Length);
@@ -87,31 +86,16 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
                     length = stream.Read(buffer, 0, buffer.Length);
                 }
             }
-            
-            return location;
         }
 
         /// <summary>
-        /// 加载
+        /// 读取文件
         /// </summary>
         /// <param name="location">位置</param>
         /// <returns></returns>
-        public Stream Load(string location)
+        public Stream OpenRead(string location)
         {
-            var result = new MemoryStream();
-            try
-            {
-                using (var stream = new FileStream(Path.Combine(BasePath, location), FileMode.Open))
-                {
-                    stream.CopyTo(result);
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                return null;
-            }
-            result.Position = 0;
-            return result;
+            return new FileStream(Path.Combine(BasePath, location), FileMode.Open);
         }
 
         /// <summary>

@@ -40,11 +40,11 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         }
 
         /// <summary>
-        /// 加载文件
+        /// 读取文件
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
-        public Stream Load(string location)
+        public Stream OpenRead(string location)
         {
             return Fs.OpenRead(location);
         }
@@ -62,13 +62,20 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         /// <summary>
         /// 保存文件
         /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        public string Save(Stream stream)
+        /// <param name="location">位置</param>
+        /// <param name="stream">文件流</param>
+        public void Save(string location, Stream stream)
         {
-            var location = ClassicDomain.Driver.GuidGenerator.Default.Create(ClassicDomain.Driver.StorageMapping.MongoMapping).ToString("N");
             Fs.Upload(stream, location);
-            return location;
+        }
+
+        /// <summary>
+        /// 创建位置
+        /// </summary>
+        /// <returns></returns>
+        public string CreateLocation()
+        {
+            return ClassicDomain.Driver.GuidGenerator.Default.Create(ClassicDomain.Driver.StorageMapping.MongoMapping).ToString("N"); ;
         }
     }
 }

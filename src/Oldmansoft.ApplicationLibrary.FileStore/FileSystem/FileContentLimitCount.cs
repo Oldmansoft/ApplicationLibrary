@@ -75,7 +75,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.FileSystem
         /// 创建文件路径
         /// </summary>
         /// <returns></returns>
-        protected override string CreatePath()
+        public override string CreateLocation()
         {
             string path;
             lock (DirectoryLocker)

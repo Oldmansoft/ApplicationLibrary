@@ -34,13 +34,14 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         /// <summary>
         /// 创建文件
         /// </summary>
-        /// <param name="stream"></param>
+        /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="contentType"></param>
+        /// <param name="contentLength"></param>
         /// <returns></returns>
-        public FileData Create(Stream stream, string name, string contentType)
+        public FileData Create(string id, string name, string contentType, long contentLength)
         {
-            return FileData.Create(stream, name, contentType);
+            return FileData.Create(id, name, contentType, contentLength);
         }
 
         /// <summary>
