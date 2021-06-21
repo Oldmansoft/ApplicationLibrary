@@ -8,7 +8,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
     /// </summary>
     public class FileIndex : IFileIndex
     {
-        private Repositories.RepositoryFactory Factory { get; set; }
+        private Repositories.Factory Factory { get; set; }
 
         private Infrastructure.IFileIndexRepository Repository { get; set; }
 
@@ -17,7 +17,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         /// </summary>
         public FileIndex()
         {
-            Factory = new Repositories.RepositoryFactory();
+            Factory = new Repositories.Factory();
             Repository = Factory.GetRepository<Infrastructure.IFileIndexRepository>();
         }
 

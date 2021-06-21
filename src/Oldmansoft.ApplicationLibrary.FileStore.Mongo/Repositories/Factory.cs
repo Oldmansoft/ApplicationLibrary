@@ -3,9 +3,12 @@ using Oldmansoft.ClassicDomain;
 
 namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo.Repositories
 {
-    class RepositoryFactory : ClassicDomain.RepositoryFactory
+    /// <summary>
+    /// 仓储工厂
+    /// </summary>
+    public class Factory : RepositoryFactory
     {
-        static RepositoryFactory()
+        static Factory()
         {
             Add<IFileIndexRepository, FileIndexRepository>();
         }
