@@ -58,7 +58,8 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
             else
             {
                 file.SetLocation(FileContent.CreateLocation());
-                FileContent.Save(file.Location, file.GetStream());
+                stream.Position = 0;
+                FileContent.Save(file.Location, stream);
                 FileIndex.Add(file);
             }
             return file;

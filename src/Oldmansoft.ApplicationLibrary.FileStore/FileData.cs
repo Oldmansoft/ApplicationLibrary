@@ -8,8 +8,6 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
     /// </summary>
     public class FileData
     {
-        private Stream Stream;
-
         /// <summary>
         /// 文件序号
         /// </summary>
@@ -82,7 +80,6 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
             stream.Position = 0;
             return new FileData
             {
-                Stream = stream,
                 Id = BitConverter.ToString(new System.Security.Cryptography.SHA256CryptoServiceProvider().ComputeHash(stream)).Replace("-", ""),
                 Name = name,
                 ContentType = contentType,
@@ -90,12 +87,6 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
                 Count = 1,
                 Created = DateTime.UtcNow
             };
-        }
-
-        internal Stream GetStream()
-        {
-            Stream.Position = 0;
-            return Stream;
         }
 
         /// <summary>
