@@ -49,19 +49,18 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
         public FileData CreateAndSave(Stream stream, string name, string contentType)
         {
             stream.Position = 0;
-            var file = FileIndex.Create(MakeId(stream), name, contentType, stream.Length);
-
-            if (FileIndex.Get(file.Id) != null)
+            var id = MakeId(stream);
+            var file = FileIndex.Get(id);
+            if (file != null)
             {
-                FileIndex.IncRef(file.Id);
+                return file;
             }
-            else
-            {
-                file.SetLocation(FileContent.CreateLocation());
-                stream.Position = 0;
-                FileContent.Save(file.Location, stream);
-                FileIndex.Add(file);
-            }
+            
+            file = FileIndex.Create(id, name, contentType, stream.Length);
+            file.SetLocation(FileContent.CreateLocation());
+            stream.Position = 0;
+            FileContent.Save(file.Location, stream);
+            FileIndex.Add(file);
             return file;
         }
 
