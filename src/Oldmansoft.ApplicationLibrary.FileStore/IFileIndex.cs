@@ -30,6 +30,13 @@
         void Add(FileData file);
 
         /// <summary>
+        /// 修改名称
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        void Change(string id, string name);
+
+        /// <summary>
         /// 增加引用计数
         /// </summary>
         /// <param name="id"></param>

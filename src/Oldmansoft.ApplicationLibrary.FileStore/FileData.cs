@@ -63,7 +63,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
                 Name = name,
                 ContentType = contentType,
                 ContentLength = contentLength,
-                Count = 1,
+                Count = 0,
                 Created = DateTime.UtcNow
             };
         }
@@ -84,7 +84,7 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
                 Name = name,
                 ContentType = contentType,
                 ContentLength = stream.Length,
-                Count = 1,
+                Count = 0,
                 Created = DateTime.UtcNow
             };
         }
@@ -96,6 +96,15 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
         public void SetLocation(string location)
         {
             Location = location;
+        }
+
+        /// <summary>
+        /// 改名称
+        /// </summary>
+        /// <param name="name"></param>
+        public void SetName(string name)
+        {
+            Name = name;
         }
     }
 }

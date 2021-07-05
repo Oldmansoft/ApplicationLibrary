@@ -87,12 +87,9 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
         {
             if (FileIndex.Get(file.Id) != null)
             {
-                FileIndex.IncRef(file.Id);
+                return;
             }
-            else
-            {
-                FileIndex.Add(file);
-            }
+            FileIndex.Add(file);
         }
 
         /// <summary>
@@ -101,15 +98,13 @@ namespace Oldmansoft.ApplicationLibrary.FileStore
         /// <param name="id"></param>
         public void Remove(string id)
         {
+            FileIndex.DecRef(id);
             var file = FileIndex.Get(id);
             if (file == null) return;
-            FileIndex.DecRef(id);
-            file = FileIndex.Get(id);
-            if (file.Count == 0)
-            {
-                FileIndex.Remove(id);
-                FileContent.Remove(file.Location);
-            }
+            if (file.Count > 0) return;
+
+            FileIndex.Remove(id);
+            FileContent.Remove(file.Location);
         }
 
         /// <summary>

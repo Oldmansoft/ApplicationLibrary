@@ -22,16 +22,6 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         }
 
         /// <summary>
-        /// 添加
-        /// </summary>
-        /// <param name="file"></param>
-        public void Add(FileData file)
-        {
-            Repository.Add(file);
-            Factory.GetUnitOfWork().Commit();
-        }
-
-        /// <summary>
         /// 创建文件
         /// </summary>
         /// <param name="id"></param>
@@ -45,16 +35,6 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         }
 
         /// <summary>
-        /// 添加引用计数
-        /// </summary>
-        /// <param name="id"></param>
-        public void DecRef(string id)
-        {
-            Repository.DecRef(id);
-            Factory.GetUnitOfWork().Commit();
-        }
-
-        /// <summary>
         /// 获取文件
         /// </summary>
         /// <param name="id"></param>
@@ -62,6 +42,40 @@ namespace Oldmansoft.ApplicationLibrary.FileStore.Mongo
         public FileData Get(string id)
         {
             return Repository.Get(id);
+        }
+
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="file"></param>
+        public void Add(FileData file)
+        {
+            Repository.Add(file);
+            Factory.GetUnitOfWork().Commit();
+        }
+
+        /// <summary>
+        /// 修改名称
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        public void Change(string id, string name)
+        {
+            var domain = Repository.Get(id);
+            if (domain == null) return;
+            domain.SetName(name);
+            Repository.Replace(domain);
+            Factory.GetUnitOfWork().Commit();
+        }
+
+        /// <summary>
+        /// 添加引用计数
+        /// </summary>
+        /// <param name="id"></param>
+        public void DecRef(string id)
+        {
+            Repository.DecRef(id);
+            Factory.GetUnitOfWork().Commit();
         }
 
         /// <summary>
