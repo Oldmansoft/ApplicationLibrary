@@ -9,9 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oldmansoft.ApplicationLibra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oldmansoft.ApplicationLibrary.WechatOpen", "Oldmansoft.ApplicationLibrary.WechatOpen\Oldmansoft.ApplicationLibrary.WechatOpen.csproj", "{7D19E9EB-E7E0-4E81-9158-46C6988D088C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oldmansoft.ApplicationLibrary.PullQueue", "Oldmansoft.ApplicationLibrary.PullQueue\Oldmansoft.ApplicationLibrary.PullQueue.csproj", "{246E9125-321F-4002-9993-D5F07377ABB9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oldmansoft.ApplicationLibrary.PullQueue.Redis", "Oldmansoft.ApplicationLibrary.PullQueue.Redis\Oldmansoft.ApplicationLibrary.PullQueue.Redis.csproj", "{18224FFE-0CEA-4958-AF7F-B0E0829EDAA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oldmansoft.ApplicationLibrary.PullQueue.Redis", "Oldmansoft.ApplicationLibrary.PullQueue.Redis\Oldmansoft.ApplicationLibrary.PullQueue.Redis.csproj", "{18224FFE-0CEA-4958-AF7F-B0E0829EDAA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{7D19E9EB-E7E0-4E81-9158-46C6988D088C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D19E9EB-E7E0-4E81-9158-46C6988D088C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D19E9EB-E7E0-4E81-9158-46C6988D088C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{246E9125-321F-4002-9993-D5F07377ABB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{246E9125-321F-4002-9993-D5F07377ABB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{246E9125-321F-4002-9993-D5F07377ABB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{246E9125-321F-4002-9993-D5F07377ABB9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{18224FFE-0CEA-4958-AF7F-B0E0829EDAA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{18224FFE-0CEA-4958-AF7F-B0E0829EDAA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18224FFE-0CEA-4958-AF7F-B0E0829EDAA0}.Release|Any CPU.ActiveCfg = Release|Any CPU

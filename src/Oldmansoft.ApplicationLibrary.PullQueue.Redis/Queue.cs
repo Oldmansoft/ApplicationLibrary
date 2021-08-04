@@ -1,6 +1,6 @@
 ﻿namespace Oldmansoft.ApplicationLibrary.PullQueue.Redis
 {
-    public class Queue : IQueue
+    public class Queue
     {
         private Infrastructure.IQueueRepository Repository { get; set; }
 
