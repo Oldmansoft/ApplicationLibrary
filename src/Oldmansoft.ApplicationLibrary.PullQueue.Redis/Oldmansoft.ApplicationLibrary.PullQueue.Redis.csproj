@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Oldmansoft.ClassicDomain.Driver.Redis" Version="5.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Oldmansoft.ApplicationLibrary.PullQueue\Oldmansoft.ApplicationLibrary.PullQueue.csproj" />
+  </ItemGroup>
+
+</Project>
