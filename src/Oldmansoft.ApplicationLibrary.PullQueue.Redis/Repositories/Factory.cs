@@ -2,7 +2,10 @@
 
 namespace Oldmansoft.ApplicationLibrary.PullQueue.Redis.Repositories
 {
-    class Factory : ClassicDomain.RepositoryFactory
+    /// <summary>
+    /// 仓储工厂
+    /// </summary>
+    public class Factory : ClassicDomain.RepositoryFactory
     {
         static Factory()
         {

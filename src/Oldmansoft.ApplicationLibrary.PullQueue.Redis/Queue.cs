@@ -12,7 +12,7 @@
         /// </summary>
         public Queue()
         {
-            new Repositories.Factory().GetRepository<Infrastructure.IQueueRepository>();
+            Repository = new Repositories.Factory().GetRepository<Infrastructure.IQueueRepository>();
         }
 
         /// <summary>
